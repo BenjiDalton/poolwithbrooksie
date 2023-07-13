@@ -1,144 +1,160 @@
 .container {
 	display: flex;
-	position: relative;
 	justify-content: center;
 	align-items: center;
-	height: 90vh;
-  }
-.table-border {
-	position: absolute; 
-	top: 5%;
-	left: 5%;
-	width: 90%;
-	height: 100%; 
-	background-color: rgba(107, 28, 28, 0.521);
-	z-index: -1; 
-	box-sizing: border-box; 
-	padding: 30px; /* adjust this to change amount of border showing around table */
-	align-items: center;
-	justify-content: center;
-	box-shadow:  2px 2px 2px #000000, 2px 2px 2px #0d0d0d;
-}
+	height: 100vh;
 
-.table {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	background-color: rgb(32, 106, 51);
-	box-shadow: inset 2px 2px 2px #000000, 1px 1px 1px #000000;
-}
-.stick {
-	position: absolute;
-	width: 10px;
-	height: 800px;
-	top: 33%;
-	left: 80%;
-	background-color: bisque;
-	z-index: 999;
-	rotate: 296deg;
-}
-.chalk {
-	position: absolute;
-	width: 10px;
-	height: 10px;
-	border: 2px solid white;
-	background-color: rgb(68, 100, 152);
-	z-index: 1;
-	top: 2%;
-	left: 40%;
-	transform: translate(-50%, -50%);
-	transform: rotate(25deg);
-	align-items: center;
-	justify-content: center;
-}
-.chalk-dent {
-	position: relative;
-	left: 10%;
-	top: 10%;
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background-color: rgb(35, 40, 116);
-	z-index: 999;
-}
-.pocket {
-	position: absolute;
-	width: 40px;
-	height: 40px;
-	background-color: #000000;
-	border-radius: 50%;
-	z-index: 999;
-}
-.pocket-top-left {
-	top: 2%;
-	left: .7%;
-}
-.pocket-top-middle {
-	top: 2%;
-	right: 50%;
-}
-.pocket-top-right {
-	top: 2%;
-	right: 0.7%;
-}  
-.pocket-bottom-left {
-	bottom: 2%;
-	left: .7%;
-}
-.pocket-bottom-middle {
-	bottom: 2%;
-	right: 50%;
-}
-.pocket-bottom-right {
-	bottom: 2%;
-	right: 0.7%;
-}
-.ball {
-		position: absolute;
-		width: 30px;
-		height: 30px;
-		border-radius: 50%;
-		box-shadow:  2px 2px 2px #000000;
-		z-index: 999;
+	.game-area {
+		display: flex;
+		position: relative;
+		justify-content: center;
+		align-items: center;
+		height: 750px;
+		width: 1500px;
+
+		.game-canvas {
+			width: 100%;
+			height: 100%;
+			background-color: black;
+			border: 1px solid cyan;
+		}
+
+		.table-border {
+			position: absolute; 
+			// top: 5%;
+			// left: 5%;
+			width: 100%;
+			height: 100%; 
+			background-color: rgba(107, 28, 28, 0.521);
+			z-index: -1; 
+			box-sizing: border-box; 
+			padding: 30px; /* adjust this to change amount of border showing around table */
+			align-items: center;
+			justify-content: center;
+			box-shadow:  2px 2px 2px #000000, 2px 2px 2px #0d0d0d;
+		}
+
+		.table {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			background-color: rgb(32, 106, 51);
+			box-shadow: inset 2px 2px 2px #000000, 1px 1px 1px #000000;
+		}
+		.stick {
+			position: absolute;
+			width: 10px;
+			height: 800px;
+			top: 33%;
+			left: 80%;
+			background-color: bisque;
+			z-index: 999;
+			rotate: 296deg;
+		}
+		.chalk {
+			position: absolute;
+			width: 10px;
+			height: 10px;
+			border: 2px solid white;
+			background-color: rgb(68, 100, 152);
+			z-index: 1;
+			top: 2%;
+			left: 40%;
+			transform: translate(-50%, -50%);
+			transform: rotate(25deg);
+			align-items: center;
+			justify-content: center;
+		}
+		.chalk-dent {
+			position: relative;
+			left: 10%;
+			top: 10%;
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background-color: rgb(35, 40, 116);
+			z-index: 999;
+		}
+		.pocket {
+			position: absolute;
+			width: 40px;
+			height: 40px;
+			background-color: #000000;
+			border-radius: 50%;
+			z-index: 999;
+		}
+		.pocket-top-left {
+			top: 2%;
+			left: .7%;
+		}
+		.pocket-top-middle {
+			top: 2%;
+			right: 50%;
+		}
+		.pocket-top-right {
+			top: 2%;
+			right: 0.7%;
+		}  
+		.pocket-bottom-left {
+			bottom: 2%;
+			left: .7%;
+		}
+		.pocket-bottom-middle {
+			bottom: 2%;
+			right: 50%;
+		}
+		.pocket-bottom-right {
+			bottom: 2%;
+			right: 0.7%;
+		}
+		.ball {
+			position: absolute;
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			box-shadow:  2px 2px 2px #000000;
+			z-index: 999;
+		}
+		.cue-ball {
+			background-color: rgb(216, 216, 216);
+			top: 65%;
+			left: 48%;
+		}
+		.cue-ball-start {
+			position: absolute;
+			width: 6px;
+			height: 6px;
+			border-radius: 50%;
+			top: 45%;
+			left: 75%;
+			background-color: rgb(16, 30, 225);
+			border: 3px solid white;
+			z-index: 999;
+		}
+		.ball1 {
+			background-color: rgb(225, 225, 16);
+			top: 45%;
+			left: 25%;
+		}
+		.ball2 {
+			background-color: rgb(16, 30, 225);
+			top: 20%;
+			left: 10%;
+		}
+		.ball3 {
+			background-color: rgb(16, 30, 225);
+			top: 20%;
+			left: 10%;
+		}
+		.ball4 {
+			background-color: rgb(16, 30, 225);
+			top: 20%;
+			left: 10%;
+		}
+		.ball5 {
+			background-color: rgb(16, 30, 225);
+			top: 20%;
+			left: 10%;
+		}
 	}
-	.cue-ball {
-		background-color: rgb(216, 216, 216);
-		top: 65%;
-		left: 48%;
-	}
-	.cue-ball-start {
-		position: absolute;
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
-		top: 45%;
-		left: 75%;
-		background-color: rgb(16, 30, 225);
-		border: 3px solid white;
-		z-index: 999;
-	}
-	.ball1 {
-		background-color: rgb(225, 225, 16);
-		top: 45%;
-		left: 25%;
-	}
-	.ball2 {
-		background-color: rgb(16, 30, 225);
-		top: 20%;
-		left: 10%;
-	}
-	.ball3 {
-		background-color: rgb(16, 30, 225);
-		top: 20%;
-		left: 10%;
-	}
-	.ball4 {
-		background-color: rgb(16, 30, 225);
-		top: 20%;
-		left: 10%;
-	}
-	.ball5 {
-		background-color: rgb(16, 30, 225);
-		top: 20%;
-		left: 10%;
-	}
+}

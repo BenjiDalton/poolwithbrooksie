@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { BallComponent } from './ball/ball.component';
+import { PhysicsService } from './services/physics.service';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,7 @@ import { BallComponent } from './ball/ball.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [PhysicsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
