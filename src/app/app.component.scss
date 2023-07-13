@@ -19,6 +19,7 @@
 	justify-content: center;
 	box-shadow:  2px 2px 2px #000000, 2px 2px 2px #0d0d0d;
 }
+
 .table {
 	position: relative;
 	width: 100%;
@@ -46,7 +47,19 @@
 	top: 2%;
 	left: 40%;
 	transform: translate(-50%, -50%);
-	transform: rotate(25deg)
+	transform: rotate(25deg);
+	align-items: center;
+	justify-content: center;
+}
+.chalk-dent {
+	position: relative;
+	left: 10%;
+	top: 10%;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: rgb(35, 40, 116);
+	z-index: 999;
 }
 .pocket {
 	position: absolute;
@@ -76,17 +89,15 @@
 	bottom: 2%;
 	right: 50%;
 }
-  
 .pocket-bottom-right {
 	bottom: 2%;
 	right: 0.7%;
 }
-
 .ball {
+	position: absolute;
 	width: 30px;
 	height: 30px;
 	border-radius: 50%;
-	position: absolute;
 	box-shadow:  2px 2px 2px #000000;
 	z-index: 999;
 }
@@ -94,6 +105,17 @@
 	background-color: rgb(216, 216, 216);
 	top: 65%;
 	left: 48%;
+}
+.cue-ball-start {
+	position: absolute;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	top: 45%;
+	left: 75%;
+	background-color: rgb(16, 30, 225);
+	border: 3px solid white;
+	z-index: 999;
 }
 .ball1 {
 	background-color: rgb(225, 225, 16);
