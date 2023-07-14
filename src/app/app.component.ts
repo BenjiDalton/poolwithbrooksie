@@ -11,21 +11,12 @@ import { Bodies } from 'matter-js';
 export class AppComponent implements AfterViewInit {
 	@ViewChild('gameArea', { read: ElementRef }) gameAreaElement: ElementRef;
 	title = 'poolwithbrooksie';
-	balls: BallComponent[] = [];
-	colors: ['blue', 'yellow', 'red', 'orange', ]
-
+	balls: any = {
+		'number': [],
+		'category': []
+	}
+		
 	constructor(private physicsService: PhysicsService) {
-		for (let i = 0; i < 15; i++) {
-			const ball=new BallComponent();
-			let category="solid"
-			if (i+1 > 8) {
-				category="striped";
-			}
-			ball.category = category;
-			ball.number = i + 1;
-			this.balls.push(ball);
-		}
-		this.viewBalls()
 	}
 
 	ngAfterViewInit(): void {
@@ -34,15 +25,14 @@ export class AppComponent implements AfterViewInit {
 		for (let i = 1; i < 16; i++) {
 			const texture = '../assets/poolSprites/' + i + '.png';
 			const ball = Bodies.circle(i * 30 + 300, 50 + 300, 15, { render: { sprite: { texture, xScale: 0.01067, yScale: 0.01067 }}});
+			let category="solid"
+			if (i - 1 > 8) {
+				category="striped";
+			}
+			this.balls['number'].push(i - 1);
+			this.balls['category'].push(category);
 			this.physicsService.addBody(ball);
-			// const ball=new BallComponent();
-			// let category="solid"
-			// if (i+1 > 8) {
-			// 	category="striped";
-			// }
-			// ball.category = category;
-			// ball.number = i + 1;
-			// this.balls.push(ball);
+			
 		}
 		this.viewBalls()
 	}
@@ -50,7 +40,4 @@ export class AppComponent implements AfterViewInit {
 	viewBalls(): void {
 		console.log(this.balls);
 	}
-	// if (ball.isSleeping) {
-	//   ball.setStatic(true);
-	// }
 }

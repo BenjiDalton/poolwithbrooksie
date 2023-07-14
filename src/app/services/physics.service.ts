@@ -26,7 +26,6 @@ export class PhysicsService {
 				width: this.width,
 				wireframes: false,
 				showPerformance: true
-				// background: '0% 0% / contain rgb(20 21 31 / 0%)'
 			}
 		});
 		this.mouse = Mouse.create(element);
@@ -44,24 +43,15 @@ export class PhysicsService {
 
 	private setupEngine(): void {
 		this.engine.gravity.y = 0;
-
-		// run the renderer
 		Render.run(this.renderer);
-
-		// run the engine
 		Runner.run(this.runner, this.engine);
 	}
 
 	public addStuff(): void {
-		// create two boxes and a ground
-		// var boxA = Bodies.rectangle(400, 200, 80, 80);
-		// var boxB = Bodies.rectangle(450, 50, 80, 80);
 		var topBorder = Bodies.rectangle(this.width / 2, this.borderWidth / 2, this.width, this.borderWidth, { isStatic: true, render: { fillStyle: 'transparent' }  });
 		var rightBorder = Bodies.rectangle(this.width - (this.borderWidth / 2), this.height / 2, this.borderWidth, this.height, { isStatic: true, render: { fillStyle: 'transparent' }  });
 		var bottomBorder = Bodies.rectangle(this.width / 2, this.height - (this.borderWidth / 2), this.width, this.borderWidth, { isStatic: true, render: { fillStyle: 'transparent' }  });
 		var leftBorder = Bodies.rectangle(this.borderWidth / 2, this.height / 2, this.borderWidth, this.height, { isStatic: true, render: { fillStyle: 'transparent' } });
-
-		// add all of the bodies to the world
 		Composite.add(this.engine.world, [topBorder, rightBorder, bottomBorder, leftBorder]);
 	}
 
