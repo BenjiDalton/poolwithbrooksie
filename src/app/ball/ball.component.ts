@@ -7,18 +7,18 @@ import { Component } from '@angular/core';
 })
 export class BallComponent {
 	constructor() {}
-	private _category: string | "striped" | "solid"='';
-	private _number: any='';
+	private _category: string | "striped" | "solid";
+	private _number: any;
 	
 	
-	setCategory(value: string | "striped" | "solid") {
+	set category(value: string | "striped" | "solid") {
 		this._category=value;
 	}
 	get category(): string {
 		return this._category
 	}
 	
-	setNumber(value: number) {
+	set number(value: number) {
 		if (value >= 1 && value <= 15) {
 			this._number=value;
 		  } else {
