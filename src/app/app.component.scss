@@ -3,18 +3,19 @@
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
+	overflow: hidden;
 
 	.game-area {
 		display: flex;
 		position: relative;
 		justify-content: center;
 		align-items: center;
-		height: 1290px;
-		width: 2040px;
+		height: 100%;
+		width: 100%;
+		min-height: 1290px;
+		min-width: 2040px;
 
 		.game-canvas {
-			width: 100%;
-			height: 100%;
 			background-color: transparent !important;
 		}
 
