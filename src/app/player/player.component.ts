@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class PlayerComponent {
 	private _ballsRemaining: [];
 	private _ballType: string;
+	
 	constructor(){}
 
 	public set ballsRemaining(ballsArr: []) {
