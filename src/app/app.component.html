@@ -1,7 +1,28 @@
 <div class="container">
 	<div class="game-area">
+		<div #scoreBoardButton class="scoreboard-button" [class.active]="isButtonActive" (click)="viewScoreboard()">Scoreboard
+			<div class="scoreboard-button-dropdown">
+				<div class="dropdown-column" style="border-right: 4px solid black;">
+					<div class="dropdown-column-item">Brooks</div>
+					<ng-container *ngIf="fillScoreboard" >
+						<div class="dropdown-column-item"> {{ playerBallType(players[0]) }}</div>
+						<div *ngFor="let ball of playerBallsRemaining(players[0])" class="dropdown-column-item">
+							{{ ball }}
+						</div>
+					</ng-container>
+				</div>
+				<div class="dropdown-column">
+					<div class="dropdown-column-item">Ben</div>
+					<ng-container *ngIf="fillScoreboard" >
+						<div class="dropdown-column-item"> {{ playerBallType(players[1]) }}</div>
+						<div *ngFor="let ball of playerBallsRemaining(players[1])" class="dropdown-column-item">
+							{{ ball }}
+						</div>
+					</ng-container>
+				</div>
+			</div>
+		</div>
 		<div class="table-border">
-			<div class="stick"></div>
 			<div class="chalk">
 				<div class="chalk-dent"></div>
 			</div>

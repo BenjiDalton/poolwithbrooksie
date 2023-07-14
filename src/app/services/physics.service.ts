@@ -56,13 +56,17 @@ export class PhysicsService {
 			render: { fillStyle: 'transparent' },
 			restitution: 1
 		};
+		const poolStickOptions: Matter.IChamferableBodyDefinition = {
+			render: {fillStyle: 'rgb( 202, 182, 143 )'},
+			density: 1000
+		}
 		var topBorder = Bodies.rectangle(this.width / 2, this.borderWidth / 2, this.width, this.borderWidth, borderOptions);
 		var rightBorder = Bodies.rectangle(this.width - (this.borderWidth / 2), this.height / 2, this.borderWidth, this.height, borderOptions);
 		var bottomBorder = Bodies.rectangle(this.width / 2, this.height - (this.borderWidth / 2), this.width, this.borderWidth, borderOptions);
 		var leftBorder = Bodies.rectangle(this.borderWidth / 2, this.height / 2, this.borderWidth, this.height, borderOptions);
-
+		var poolStick = Bodies.rectangle(this.width / 2, 750, 600, 15, poolStickOptions);
 		// add all of the bodies to the world
-		Composite.add(this.engine.world, [topBorder, rightBorder, bottomBorder, leftBorder]);
+		Composite.add(this.engine.world, [topBorder, rightBorder, bottomBorder, leftBorder, poolStick]);
 	}
 
 	private setupMouseConstraint(): void {

@@ -12,17 +12,40 @@ import { Bodies, Body, Composite, Composites, IBodyDefinition } from 'matter-js'
 })
 export class AppComponent implements AfterViewInit {
 	@ViewChild('gameArea', { read: ElementRef }) gameAreaElement: ElementRef;
+	@ViewChild('scoreBoardButton', { read: ElementRef }) scoreBoardButton: ElementRef;
 	title = 'poolwithbrooksie';
-	balls: BallComponent[] = [];
-	private ballCount = 0;
-
+	private _isButtonActive: boolean = false;
+	private _players: PlayerComponent[];
+	public fillScoreboard: boolean = false;
+	
 	constructor(private physicsService: PhysicsService, private gameState: GameStateService) {
 	}
-
+	
 	ngAfterViewInit(): void {
 		this.physicsService.renderElement = this.gameAreaElement.nativeElement;
 		this.gameState.newGame();
-		console.log(this.gameState.currentScore)
+		this._players = this.gameState.players;
+		this.fillScoreboard = true;
+		console.log(this._players)
+	}
+
+	viewScoreboard(): void {
+		this._isButtonActive = !this._isButtonActive;
+	}
+
+	public playerBallsRemaining(player: PlayerComponent): any[] {
+		let specificPlayer: any | undefined = this._players.find(p => p === player);
+		return specificPlayer.ballsRemaining.ballNumber
+	}
+	public playerBallType(player: PlayerComponent): string {
+		let specificPlayer: any | undefined = this._players.find(p => p === player);
+		return specificPlayer.ballType
+	}
+	public get players() {
+		return this._players
+	}
+	public get isButtonActive() {
+		return this._isButtonActive
 	}
 
 	// public newGame(): void {

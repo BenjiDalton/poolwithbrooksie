@@ -87,7 +87,10 @@ export class GameStateService {
 		return Bodies.circle(x, y, 15, ballOptions);
 	}
 	private assignPlayerBallType(player: PlayerComponent, balls: any, ballType: string): void {
-		player.ballsRemaining = balls;
+		balls.forEach((ball: any) => {
+			player.ballsRemaining.ballNumber.push(ball[0]);
+			player.ballsRemaining.ballInfo.push(ball[1]);
+		})
 		player.ballType = ballType;
 	}
 	public get players(): any {

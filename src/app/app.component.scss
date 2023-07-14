@@ -18,7 +18,6 @@
 		.game-canvas {
 			background-color: transparent !important;
 		}
-
 		.table-border {
 			position: absolute; 
 			// top: 5%;
@@ -33,23 +32,12 @@
 			justify-content: center;
 			box-shadow:  2px 2px 2px #000000, 2px 2px 2px #0d0d0d;
 		}
-
 		.table {
 			position: relative;
 			width: 100%;
 			height: 100%;
 			background-color: rgb(32, 106, 51);
 			box-shadow: inset 2px 2px 2px #000000, 1px 1px 1px #000000;
-		}
-		.stick {
-			position: absolute;
-			width: 10px;
-			height: 800px;
-			top: 33%;
-			left: 80%;
-			background-color: bisque;
-			z-index: 999;
-			rotate: 296deg;
 		}
 		.chalk {
 			position: absolute;
@@ -107,19 +95,6 @@
 			bottom: 2%;
 			right: 0.7%;
 		}
-		.ball {
-			position: absolute;
-			width: 30px;
-			height: 30px;
-			border-radius: 50%;
-			box-shadow:  2px 2px 2px #000000;
-			z-index: 999;
-		}
-		.cue-ball {
-			background-color: rgb(216, 216, 216);
-			top: 65%;
-			left: 48%;
-		}
 		.cue-ball-start {
 			position: absolute;
 			width: 6px;
@@ -131,30 +106,65 @@
 			border: 3px solid white;
 			z-index: 999;
 		}
-		.ball1 {
-			background-color: rgb(225, 225, 16);
-			top: 45%;
-			left: 25%;
+		.scoreboard-button {
+			position: absolute;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			width: 400px;
+			height: 50px;
+			align-items: center;
+			background-color: rgba(124, 119, 119, 0.719);
+			border-radius: 4px;
+			padding: 0px 20px 0px;
+			// transition: all 0.2s ease-in-out;
+			font-weight: 600;
+			font-size: xx-large;
+			user-select: none;
+			left: 2%;
+			top: 10%;
+			.scoreboard-button-dropdown {
+				all: unset;
+				position: absolute;
+				display: none;
+				width: calc(100% - 5px);
+				height: 400px;
+				top: 100%;
+				background-color: rgba(124, 119, 119, 0.418);
+				border: 5px solid #ccc;
+				border-top-style: inset;
+				border-radius: 5px;
+				column-count: 2;
+				column-gap: 0;
+				pointer-events: none;
+				.dropdown-column {
+					display: flex;
+					justify-content: center;
+					height: 100%;
+					overflow: hidden;
+					flex-direction: column;
+					.dropdown-column-item {
+						display: flex;
+						justify-content: center;
+						height: 20%;
+					}
+				}
+				
+			}
 		}
-		.ball2 {
-			background-color: rgb(16, 30, 225);
-			top: 20%;
-			left: 10%;
-		}
-		.ball3 {
-			background-color: rgb(16, 30, 225);
-			top: 20%;
-			left: 10%;
-		}
-		.ball4 {
-			background-color: rgb(16, 30, 225);
-			top: 20%;
-			left: 10%;
-		}
-		.ball5 {
-			background-color: rgb(16, 30, 225);
-			top: 20%;
-			left: 10%;
+		.scoreboard-button.active {
+			background-color: #666666;
+			.scoreboard-button-dropdown {
+				display: block;
+				
+			}
 		}
 	}
+}
+
+@media (hover: hover) {
+    .scoreboard-button:hover {
+		cursor: pointer;
+		background-color: rgba(163, 43, 43, 0.719);
+    }
 }

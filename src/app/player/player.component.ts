@@ -6,7 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent {
-	private _ballsRemaining: [];
+	private _ballsRemaining: any = {
+		ballNumber: [],
+		ballInfo: []
+	};
 	private _ballType: string;
 	
 	constructor(){}
