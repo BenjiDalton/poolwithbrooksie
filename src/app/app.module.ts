@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BallComponent } from './ball/ball.component';
 import { PhysicsService } from './services/physics.service';
+import { GameStateService } from './services/game-state.service';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,7 @@ import { PhysicsService } from './services/physics.service';
   imports: [
     BrowserModule
   ],
-  providers: [PhysicsService],
+  providers: [PhysicsService, GameStateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

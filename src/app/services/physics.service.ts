@@ -51,14 +51,6 @@ export class PhysicsService {
 	}
 
 	public addStuff(): void {
-<<<<<<< HEAD
-		var topBorder = Bodies.rectangle(this.width / 2, this.borderWidth / 2, this.width, this.borderWidth, { isStatic: true, render: { fillStyle: 'transparent' }  });
-		var rightBorder = Bodies.rectangle(this.width - (this.borderWidth / 2), this.height / 2, this.borderWidth, this.height, { isStatic: true, render: { fillStyle: 'transparent' }  });
-		var bottomBorder = Bodies.rectangle(this.width / 2, this.height - (this.borderWidth / 2), this.width, this.borderWidth, { isStatic: true, render: { fillStyle: 'transparent' }  });
-		var leftBorder = Bodies.rectangle(this.borderWidth / 2, this.height / 2, this.borderWidth, this.height, { isStatic: true, render: { fillStyle: 'transparent' } });
-=======
-		// var boxA = Bodies.rectangle(400, 200, 80, 80);
-		// var boxB = Bodies.rectangle(450, 50, 80, 80);
 		const borderOptions: Matter.IChamferableBodyDefinition = {
 			isStatic: true,
 			render: { fillStyle: 'transparent' },
@@ -70,7 +62,6 @@ export class PhysicsService {
 		var leftBorder = Bodies.rectangle(this.borderWidth / 2, this.height / 2, this.borderWidth, this.height, borderOptions);
 
 		// add all of the bodies to the world
->>>>>>> physics
 		Composite.add(this.engine.world, [topBorder, rightBorder, bottomBorder, leftBorder]);
 	}
 
