@@ -5,7 +5,10 @@ import { Bodies, Body, Composite, Engine, Mouse, MouseConstraint, Render, Runner
   providedIn: 'root'
 })
 export class PhysicsService {
-	private engine = Engine.create();
+	private engine = Engine.create({
+		velocityIterations: 16,
+		positionIterations: 24
+	});
     private renderer: Render;
     private runner = Runner.create({
 		delta: 144
@@ -48,10 +51,26 @@ export class PhysicsService {
 	}
 
 	public addStuff(): void {
+<<<<<<< HEAD
 		var topBorder = Bodies.rectangle(this.width / 2, this.borderWidth / 2, this.width, this.borderWidth, { isStatic: true, render: { fillStyle: 'transparent' }  });
 		var rightBorder = Bodies.rectangle(this.width - (this.borderWidth / 2), this.height / 2, this.borderWidth, this.height, { isStatic: true, render: { fillStyle: 'transparent' }  });
 		var bottomBorder = Bodies.rectangle(this.width / 2, this.height - (this.borderWidth / 2), this.width, this.borderWidth, { isStatic: true, render: { fillStyle: 'transparent' }  });
 		var leftBorder = Bodies.rectangle(this.borderWidth / 2, this.height / 2, this.borderWidth, this.height, { isStatic: true, render: { fillStyle: 'transparent' } });
+=======
+		// var boxA = Bodies.rectangle(400, 200, 80, 80);
+		// var boxB = Bodies.rectangle(450, 50, 80, 80);
+		const borderOptions: Matter.IChamferableBodyDefinition = {
+			isStatic: true,
+			render: { fillStyle: 'transparent' },
+			restitution: 1
+		};
+		var topBorder = Bodies.rectangle(this.width / 2, this.borderWidth / 2, this.width, this.borderWidth, borderOptions);
+		var rightBorder = Bodies.rectangle(this.width - (this.borderWidth / 2), this.height / 2, this.borderWidth, this.height, borderOptions);
+		var bottomBorder = Bodies.rectangle(this.width / 2, this.height - (this.borderWidth / 2), this.width, this.borderWidth, borderOptions);
+		var leftBorder = Bodies.rectangle(this.borderWidth / 2, this.height / 2, this.borderWidth, this.height, borderOptions);
+
+		// add all of the bodies to the world
+>>>>>>> physics
 		Composite.add(this.engine.world, [topBorder, rightBorder, bottomBorder, leftBorder]);
 	}
 
@@ -70,5 +89,9 @@ export class PhysicsService {
 
 	public addBody(body: Body): void {
 		Composite.add(this.engine.world, body);
+	}
+
+	public addComposite(composite: Composite): void {
+		Composite.add(this.engine.world, composite);
 	}
 }
