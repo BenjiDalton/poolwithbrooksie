@@ -117,7 +117,6 @@ export class PhysicsService {
 				position: Vector.clone(body.position),
 				speed: body.speed
 			});
-			// Render.startViewTransform(this.renderer);
 			this.renderer.context.globalAlpha = 0.7;
 
 			for (var i = 0; i < trail.length; i += 1) {
@@ -131,7 +130,6 @@ export class PhysicsService {
 				this.renderer.context.fillRect(point.x, point.y, 4, 4);
 			}
 			this.renderer.context.globalAlpha = 1;
-			// Render.endViewTransform(render);
 			let maxTailLengthCoeff = 5; /* higher number -> longer maximal tail length */
 			if (trail.length > body.speed * maxTailLengthCoeff) {
 				trail.pop();
