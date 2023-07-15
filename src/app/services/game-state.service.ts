@@ -46,7 +46,6 @@ export class GameStateService {
 		
 		this.assignPlayerBallType(this.Brooks, this._balls.solids, 'solids');
 		this.assignPlayerBallType(this.Ben, this._balls.stripes, 'stripes');
-
 	}
 	
 	private getNextBall = (x: number, y: number): Body => {
@@ -67,8 +66,12 @@ export class GameStateService {
 		return generatedValue;
 	}
 	private createBall(x: number, y: number, i: number): Body {
+		let ballLabel: any = i;
+		if (i === 16) {
+			ballLabel = "cue";
+		}
 		const ballOptions: IBodyDefinition = {
-			label: 'poolBall',
+			label: `poolBall ${ballLabel}`,
 			frictionAir: 0.01,
 			render: {
 				sprite: {

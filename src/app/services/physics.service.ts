@@ -21,7 +21,6 @@ export class PhysicsService {
 	private mouseConstraint: any;
 
 	public ballsInPlay: any = [];
-	private _pocketCoordinates: any[]=[];
 
 	public set renderElement(element: HTMLCanvasElement) {
 		this._renderElement = element;
@@ -63,8 +62,14 @@ export class PhysicsService {
 		};
 		const poolStickOptions: Matter.IChamferableBodyDefinition = {
 			label: 'poolStick',
-			render: {fillStyle: 'rgb( 202, 182, 143 )'},
+			render: {fillStyle: 'rgb(202, 182, 143)'},
 			density: 1000
+		}
+		const pocketOptions: Matter.IChamferableBodyDefinition = {
+			label: 'pocket',
+			isSensor: true,
+			isStatic: true,
+			render: {fillStyle: 'rgb(0, 0, 0)'}
 		}
 		var topBorder = Bodies.rectangle(this.width / 2, this.borderWidth / 2, this.width, this.borderWidth, borderOptions);
 		var rightBorder = Bodies.rectangle(this.width - (this.borderWidth / 2), this.height / 2, this.borderWidth, this.height, borderOptions);
@@ -72,8 +77,27 @@ export class PhysicsService {
 		var leftBorder = Bodies.rectangle(this.borderWidth / 2, this.height / 2, this.borderWidth, this.height, borderOptions);
 		var poolStick = Bodies.rectangle(this.width / 2, 750, 600, 15, poolStickOptions);
 		
+		var topLeftPocket = Bodies.circle(this.width * 0.150, this.height * 0.23,  20, pocketOptions)
+		var topMiddlePocket = Bodies.circle(this.width * 0.500, this.height * 0.23,  20, pocketOptions)
+		var topRightPocket = Bodies.circle(this.width * 0.855, this.height * 0.23,  20, pocketOptions)
+		var bottomLeftPocket = Bodies.circle(this.width * 0.150, this.height * 0.77,  20, pocketOptions)
+		var bottomMiddlePocket = Bodies.circle(this.width * 0.500, this.height * 0.77,  20, pocketOptions)
+		var bottomRightPocket = Bodies.circle(this.width * 0.855, this.height * 0.77,  20, pocketOptions)
+		
 		// add all of the bodies to the world
-		Composite.add(this.engine.world, [topBorder, rightBorder, bottomBorder, leftBorder, poolStick]);
+		Composite.add(this.engine.world, [
+			topBorder, 
+			rightBorder, 
+			bottomBorder, 
+			leftBorder, 
+			poolStick, 
+			topLeftPocket, 
+			topMiddlePocket, 
+			topRightPocket, 
+			bottomLeftPocket, 
+			bottomMiddlePocket, 
+			bottomRightPocket
+		]);
 	}
 	private setupMouseConstraint(): void {
 		this.mouseConstraint = MouseConstraint.create(this.engine, {
@@ -156,43 +180,65 @@ export class PhysicsService {
 	public addBody(body: Body): void {
 		Composite.add(this.engine.world, body);
 	}
-	public removeBody(ball: Body): void {
-		/* 
-		- my attempt at getting balls to be removed if they aren't in play anymore
-			-- taken out of play in game state service when ball x and y within pocket
-		*/
-		console.log("ball removed: ", ball)
-		Composite.remove(this.engine.world, ball);
-	}
 	public addComposite(composite: Composite): void {
 		Composite.add(this.engine.world, composite);
 	}
-	public getPocketCoordinates(pocket: Element): void {
-		this._pocketCoordinates.push([pocket.getBoundingClientRect().x, pocket.getBoundingClientRect().y])
-	}
-	public get pocketCoordinates(): any {
-		return this._pocketCoordinates
-	}
-	private compareBallPocketCoordinates(x: number, y: number): boolean {
-		const ballRadius = 15;
-		return this._pocketCoordinates.some(pocket => {
-			return pocket[0] - ballRadius < x < pocket[0] + ballRadius &&  pocket[1] - ballRadius < y < pocket[1] + ballRadius;
-		});
-	}
 	public checkRemainingBalls(): void {
-		Events.on(this.runner, 'tick', event => {
-			if (this._pocketCoordinates){
-				/*
-				- tried to find out how to determine which balls are still active
-					-- thought to get all active balls -> determine if any balls are within the radius of any pocket -> removed from active balls if so
-				- currently this code removes the cue ball from appearing and doesn't remove balls when they "hit" the pocket but ITS CLOSE I THINK
-				*/
-				this.ballsInPlay.forEach((ball: any) => {
-					if (this.compareBallPocketCoordinates(ball.position.x, ball.position.y)) {
-						this.removeBody(ball)
-					}
-				});
-			};
+		/*
+		balls are removed from play if they "hit" a pocket
+		doesn't work on cue ball recently because it's not in a composite of this.engine.world.composites
+		*/
+		Events.on(this.engine, 'collisionStart', event =>  {
+			var pairs = event.pairs;
+			for (var i = 0, j = pairs.length; i != j; ++i) {
+				var pair = pairs[i];
+
+				if (pair.bodyA.label === 'pocket' && pair.bodyB.circleRadius === 15) {
+					this.engine.world.composites.forEach((composite: any) => {
+						if (composite.bodies.includes(pair.bodyB)) {
+							Composite.remove(composite, pair.bodyB)
+						}
+					});
+				} 
+			}
 		});
+		// Events.on(this.engine, 'collisionEnd', event => {
+		// 	var pairs = event.pairs;
+			
+		// 	for (var i = 0, j = pairs.length; i != j; ++i) {
+		// 		var pair = pairs[i];
+		// 		if (pair.bodyA === this.pocketDemo && pair.bodyB.circleRadius === 15) {
+		// 			pair.bodyB.render.fillStyle = 'transparent'
+		// 		} 
+		// 	}
+		// });
 	}
+
+
+
+	// public removeBody(ball: Body): void {
+	// 	/* 
+	// 	- my attempt at getting balls to be removed if they aren't in play anymore
+	// 		-- taken out of play in game state service when ball x and y within pocket
+	// 	*/
+	// 	// console.log("ball removed: ", ball)
+	// 	Composite.remove(this.engine.world, ball);
+	// }
+	// public getPocketCoordinates(pocket: Element): void {
+	// 	this._pocketCoordinates.push([pocket.getBoundingClientRect().x, pocket.getBoundingClientRect().y])
+	// }
+	// public get pocketCoordinates(): any {
+	// 	return this._pocketCoordinates
+	// }
+	// private compareBallPocketCoordinates(ball: any): void {
+	// 	const ballRadius = 15;
+	// 	this._pocketCoordinates.forEach((pocket: any) =>{
+	// 		// console.log("pocket x: ", pocket[0], "pocket y: ", pocket[1])
+	// 		if (pocket[0] - ballRadius < ball.position.x && ball.position.x < pocket[0] + ballRadius &&  pocket[1] - ballRadius < ball.position.y && ball.position.x < pocket[1] + ballRadius) {
+	// 			console.log(ball, "should be removed")
+	// 			this.removeBody(ball)
+	// 		}
+	// 	})
+	// }
+
 }

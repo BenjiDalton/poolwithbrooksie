@@ -27,13 +27,12 @@ export class AppComponent implements AfterViewInit {
 		this._players = this.gameState.players;
 		this.fillScoreboard = true;
 		
-		let tableQuery = document.querySelector('.table-border');
+		let tableQuery = document.querySelector('.game-area');
 		let pockets = tableQuery?.querySelectorAll('.pocket');
-		pockets?.forEach((pocket) => {
-			this.physicsService.getPocketCoordinates(pocket);
-		});
-		console.log(this.physicsService.pocketCoordinates);
-		this.physicsService.checkRemainingBalls();
+		// pockets?.forEach((pocket) => {
+		// 	this.physicsService.getPocketCoordinates(pocket);
+		// });
+		// this.physicsService.checkRemainingBalls();
 	}
 
 	viewScoreboard(): void {
