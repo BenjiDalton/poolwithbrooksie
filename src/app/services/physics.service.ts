@@ -89,6 +89,15 @@ export class PhysicsService {
 	private handlePoolStick(): void {
 		Events.on(this.runner, 'tick', event => { 
 			if (this.mouseConstraint.body) {
+				
+				if (this.mouseConstraint.body.label === 'poolBall') {
+					/* 
+					- tried making it so you could't move the balls
+						-- doesn't work FOR NOW
+					*/
+					console.log("Hey!! Don't touch that!")
+					return
+				}
 				if (this.mouseConstraint.body.label === 'poolStick') {
 
 					// this.mouseConstraint.body.isStatic = true;

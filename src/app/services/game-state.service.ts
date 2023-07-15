@@ -66,6 +66,7 @@ export class GameStateService {
 	}
 	private createBall(x: number, y: number, i: number): Body {
 		const ballOptions: IBodyDefinition = {
+			label: 'poolBall',
 			frictionAir: 0.01,
 			render: {
 				sprite: {
