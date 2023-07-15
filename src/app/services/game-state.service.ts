@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { PhysicsService } from './physics.service';
 import { PlayerComponent } from '../player/player.component';
 import { Bodies, Body, Composite, Composites, IBodyDefinition } from 'matter-js';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,14 @@ export class GameStateService {
 			return pocket[0] - ballRadius < x < pocket[0] + ballRadius &&  pocket[1] - ballRadius < y < pocket[1] + ballRadius;
 		});
 	}
+	// public observeBallShit(): Observable<any[]> {
+	// 	return new Observable<any[]>((observer) => {
+	// 	this.physicsService.ballsInPlay.subscribe(result => {
+	// 		const [teamData, statNames]=result;
+	// 		observer.next([teamData, statNames]);
+	// 		observer.complete();
+	// 	})})
+	// }
 	public checkRemainingBalls(): void {
 		if (this._pocketCoordinates){
 			for ( let player of this._players ) {
