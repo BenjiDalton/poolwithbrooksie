@@ -19,7 +19,6 @@ export class PhysicsService {
 	private borderWidth = 300;
 	private _renderElement: HTMLCanvasElement;
 	private mouseConstraint: any;
-	private poolStick: any;
 
 	public set renderElement(element: HTMLCanvasElement) {
 		this._renderElement = element;
@@ -68,10 +67,10 @@ export class PhysicsService {
 		var rightBorder = Bodies.rectangle(this.width - (this.borderWidth / 2), this.height / 2, this.borderWidth, this.height, borderOptions);
 		var bottomBorder = Bodies.rectangle(this.width / 2, this.height - (this.borderWidth / 2), this.width, this.borderWidth, borderOptions);
 		var leftBorder = Bodies.rectangle(this.borderWidth / 2, this.height / 2, this.borderWidth, this.height, borderOptions);
-		this.poolStick = Bodies.rectangle(this.width / 2, 750, 600, 15, poolStickOptions);
+		var poolStick = Bodies.rectangle(this.width / 2, 750, 600, 15, poolStickOptions);
 		
 		// add all of the bodies to the world
-		Composite.add(this.engine.world, [topBorder, rightBorder, bottomBorder, leftBorder, this.poolStick]);
+		Composite.add(this.engine.world, [topBorder, rightBorder, bottomBorder, leftBorder, poolStick]);
 	}
 
 	private setupMouseConstraint(): void {
