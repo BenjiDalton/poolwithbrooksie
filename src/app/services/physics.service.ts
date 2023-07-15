@@ -122,7 +122,6 @@ export class PhysicsService {
 		  	};
 		});
 	}
-
 	public addTrail(body: Body): void {
 		const trail: any = [];
 		Events.on(this.renderer, 'afterRender', () => {
@@ -155,7 +154,6 @@ export class PhysicsService {
 	public addBody(body: Body): void {
 		Composite.add(this.engine.world, body);
 	}
-
 	public addComposite(composite: Composite): void {
 		Composite.add(this.engine.world, composite);
 	}

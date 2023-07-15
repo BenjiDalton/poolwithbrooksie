@@ -22,6 +22,7 @@ export class GameStateService {
 		solids: [],
 		stripes: []
 	}
+	private _pocketCoordinates: any[]=[];
 	private Brooks = new PlayerComponent;
 	private Ben = new PlayerComponent;
 	private _players = [this.Brooks, this.Ben];
@@ -47,6 +48,9 @@ export class GameStateService {
 		this.assignPlayerBallType(this.Brooks, this._balls.solids, 'solids');
 		this.assignPlayerBallType(this.Ben, this._balls.stripes, 'stripes');
 
+	}
+	public getPocketCoordinates(pocket: Element): void {
+		this._pocketCoordinates.push([pocket.getBoundingClientRect().x, pocket.getBoundingClientRect().y])
 	}
 	private getNextBall = (x: number, y: number): Body => {
 		const generatedValue = this.createBall(x, y, this.ballCount + 1);
@@ -97,6 +101,9 @@ export class GameStateService {
 	}
 	public get players(): any {
 		return this._players;
+	}
+	public get pocketCoordinates(): any {
+		return this._pocketCoordinates
 	}
 	public get currentScore(): string {
 		if (this.ballCount === 0) {
