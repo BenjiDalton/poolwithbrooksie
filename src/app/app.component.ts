@@ -30,10 +30,10 @@ export class AppComponent implements AfterViewInit {
 		let tableQuery = document.querySelector('.table-border');
 		let pockets = tableQuery?.querySelectorAll('.pocket');
 		pockets?.forEach((pocket) => {
-			this.gameState.getPocketCoordinates(pocket)
-		})
-		console.log(this.gameState.pocketCoordinates)
-		this.gameState.checkRemainingBalls()
+			this.physicsService.getPocketCoordinates(pocket);
+		});
+		console.log(this.physicsService.pocketCoordinates);
+		this.physicsService.checkRemainingBalls();
 	}
 
 	viewScoreboard(): void {

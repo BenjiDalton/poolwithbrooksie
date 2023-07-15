@@ -19,7 +19,9 @@ export class PhysicsService {
 	private borderWidth = 300;
 	private _renderElement: HTMLCanvasElement;
 	private mouseConstraint: any;
+
 	public ballsInPlay: any = [];
+	private _pocketCoordinates: any[]=[];
 
 	public set renderElement(element: HTMLCanvasElement) {
 		this._renderElement = element;
@@ -39,6 +41,7 @@ export class PhysicsService {
 		this.renderer.mouse = this.mouse;
 		this.addStuff();
 		this.setupEngine();
+		this.checkRemainingBalls();
 	}
 
 	public get renderElement(): HTMLCanvasElement {
@@ -158,11 +161,37 @@ export class PhysicsService {
 		- my attempt at getting balls to be removed if they aren't in play anymore
 			-- taken out of play in game state service when ball x and y within pocket
 		*/
-		console.log(ball)
-		Composite.allBodies(this.engine.world).filter(body => body.label === 'poolBall').filter(body => body.id === ball.id)
+		console.log("ball removed: ", ball)
+		Composite.remove(this.engine.world, ball);
 	}
-
 	public addComposite(composite: Composite): void {
 		Composite.add(this.engine.world, composite);
+	}
+	public getPocketCoordinates(pocket: Element): void {
+		this._pocketCoordinates.push([pocket.getBoundingClientRect().x, pocket.getBoundingClientRect().y])
+	}
+	public get pocketCoordinates(): any {
+		return this._pocketCoordinates
+	}
+	private compareBallPocketCoordinates(x: number, y: number): boolean {
+		const ballRadius = 15;
+		return this._pocketCoordinates.some(pocket => {
+			return pocket[0] - ballRadius < x < pocket[0] + ballRadius &&  pocket[1] - ballRadius < y < pocket[1] + ballRadius;
+		});
+	}
+	public checkRemainingBalls(): void {
+		Events.on(this.runner, 'tick', event => {
+			if (this._pocketCoordinates){
+				/*
+				- tried to find out how to determine which balls are still active
+					-- thought to get all active balls -> determine if any balls are within the radius of any pocket -> removed from active balls if so
+				*/
+				this.ballsInPlay.forEach((ball: any) => {
+					if (this.compareBallPocketCoordinates(ball.position.x, ball.position.y)) {
+						this.removeBody(ball)
+					}
+				});
+			};
+		});
 	}
 }

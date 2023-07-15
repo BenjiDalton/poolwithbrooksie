@@ -23,14 +23,12 @@ export class GameStateService {
 		solids: [],
 		stripes: []
 	}
-	private _pocketCoordinates: any[]=[];
 	private Brooks = new PlayerComponent;
 	private Ben = new PlayerComponent;
 	private _players = [this.Brooks, this.Ben];
 
 	constructor(private physicsService: PhysicsService) {
 	}
-
 
 	public newGame(): void {
 		const xStart = 750;
@@ -50,47 +48,11 @@ export class GameStateService {
 		this.assignPlayerBallType(this.Ben, this._balls.stripes, 'stripes');
 
 	}
-	private compareBallPocketCoordinates(x: number, y: number): boolean {
-		const ballRadius = 15;
-		return this._pocketCoordinates.some(pocket => {
-			return pocket[0] - ballRadius < x < pocket[0] + ballRadius &&  pocket[1] - ballRadius < y < pocket[1] + ballRadius;
-		});
-	}
-	// public observeBallShit(): Observable<any[]> {
-	// 	return new Observable<any[]>((observer) => {
-	// 	this.physicsService.ballsInPlay.subscribe(result => {
-	// 		const [teamData, statNames]=result;
-	// 		observer.next([teamData, statNames]);
-	// 		observer.complete();
-	// 	})})
-	// }
-	public checkRemainingBalls(): void {
-		if (this._pocketCoordinates){
-			for ( let player of this._players ) {
-				/*
-				- tried to find out how to determine which balls are still active
-					-- thought to get all active balls -> determine if any balls are within the radius of any pocket -> removed from active balls if so
-				*/
-				this.physicsService.ballsInPlay.push(...player.ballsRemaining.ballInfo)
-				player.ballsRemaining.ballInfo = player.ballsRemaining.ballInfo.filter((ball: any) => 
-					this.compareBallPocketCoordinates(ball.position.x, ball.position.y)
-				);
-
-				this.physicsService.ballsInPlay.forEach((ball: any) => {
-					if (!player.ballsRemaining.ballInfo.includes(ball)) {
-						this.physicsService.removeBody(ball)
-					}
-				});
-			};
-		}
-	}
-		
-	public getPocketCoordinates(pocket: Element): void {
-		this._pocketCoordinates.push([pocket.getBoundingClientRect().x, pocket.getBoundingClientRect().y])
-	}
+	
 	private getNextBall = (x: number, y: number): Body => {
 		const generatedValue = this.createBall(x, y, this.ballCount + 1);
 		this.physicsService.addTrail(generatedValue);
+		this.physicsService.ballsInPlay.push(generatedValue)
 		this.ballCount++;
 		if (this.ballCount < 8) {
 			this._balls.solids.push([this.ballCount, generatedValue]);
@@ -137,9 +99,6 @@ export class GameStateService {
 	}
 	public get players(): any {
 		return this._players;
-	}
-	public get pocketCoordinates(): any {
-		return this._pocketCoordinates
 	}
 	public get currentScore(): string {
 		if (this.ballCount === 0) {
