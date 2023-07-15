@@ -27,10 +27,51 @@
 			background-color: rgba(107, 28, 28, 0.521);
 			z-index: -1; 
 			box-sizing: border-box; 
-			padding: 30px; /* adjust this to change amount of border showing around table */
+			padding: 40px; /* adjust this to change amount of border showing around table */
 			align-items: center;
 			justify-content: center;
 			box-shadow:  2px 2px 2px #000000, 2px 2px 2px #0d0d0d;
+			.pocket {
+				position: absolute;
+				width: 40px;
+				height: 40px;
+				top: 50%;
+				left: 10%;
+				background-color: #000;
+				overflow: hidden;
+				z-index: 999;
+				border-radius: 0px 0px 30px 30px;
+			  }
+			  
+			.pocket-top-left {
+				top: 3%;
+				left: 1.2%;
+				transform: rotate(130deg);
+			}
+			.pocket-top-middle {
+				top: 0.3%;
+				left: 47%;
+				transform: rotate(180deg);
+			}
+			.pocket-top-right {
+				top: 3%;
+				left: 96.3%;
+				transform: rotate(230deg);
+			}  
+			.pocket-bottom-left {
+				top: 92%;
+				left: 1.3%;
+				transform: rotate(50deg);
+			}
+			.pocket-bottom-middle {
+				top: 94.7%;
+				left: 47%;
+			}
+			.pocket-bottom-right {
+				top: 92%;
+				left: 96.3%;
+				transform: rotate(310deg);
+			}
 		}
 		.table {
 			position: relative;
@@ -62,38 +103,6 @@
 			border-radius: 50%;
 			background-color: rgb(35, 40, 116);
 			z-index: 999;
-		}
-		.pocket {
-			position: absolute;
-			width: 40px;
-			height: 40px;
-			background-color: #000000;
-			border-radius: 50%;
-			z-index: 999;
-		}
-		.pocket-top-left {
-			top: 2%;
-			left: .7%;
-		}
-		.pocket-top-middle {
-			top: 2%;
-			right: 50%;
-		}
-		.pocket-top-right {
-			top: 2%;
-			right: 0.7%;
-		}  
-		.pocket-bottom-left {
-			bottom: 2%;
-			left: .7%;
-		}
-		.pocket-bottom-middle {
-			bottom: 2%;
-			right: 50%;
-		}
-		.pocket-bottom-right {
-			bottom: 2%;
-			right: 0.7%;
 		}
 		.cue-ball-start {
 			position: absolute;

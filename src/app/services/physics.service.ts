@@ -69,7 +69,7 @@ export class PhysicsService {
 			label: 'pocket',
 			isSensor: true,
 			isStatic: true,
-			render: {fillStyle: 'rgb(0, 0, 0)'}
+			render: {fillStyle: 'transparent'}
 		}
 		var topBorder = Bodies.rectangle(this.width / 2, this.borderWidth / 2, this.width, this.borderWidth, borderOptions);
 		var rightBorder = Bodies.rectangle(this.width - (this.borderWidth / 2), this.height / 2, this.borderWidth, this.height, borderOptions);
