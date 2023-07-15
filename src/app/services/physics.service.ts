@@ -185,6 +185,7 @@ export class PhysicsService {
 				/*
 				- tried to find out how to determine which balls are still active
 					-- thought to get all active balls -> determine if any balls are within the radius of any pocket -> removed from active balls if so
+				- currently this code removes the cue ball from appearing and doesn't remove balls when they "hit" the pocket but ITS CLOSE I THINK
 				*/
 				this.ballsInPlay.forEach((ball: any) => {
 					if (this.compareBallPocketCoordinates(ball.position.x, ball.position.y)) {
