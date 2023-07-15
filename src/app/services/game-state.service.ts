@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { PhysicsService } from './physics.service';
 import { PlayerComponent } from '../player/player.component';
 import { Bodies, Body, Composite, Composites, IBodyDefinition } from 'matter-js';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

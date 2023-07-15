@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Bodies, Body, Composite, Constraint, Engine, Events, Mouse, MouseConstraint, Render, Runner, Vector } from 'matter-js';
+import { Bodies, Body, Composite, Constraint, Engine, Events, Mouse, MouseConstraint, Render, Runner, Vector, Common, Vertices, Collision } from 'matter-js';
 
 @Injectable({
   providedIn: 'root'
@@ -55,50 +55,11 @@ export class PhysicsService {
 		Runner.run(this.runner, this.engine);
 	}
 	public addStuff(): void {
-		const borderOptions: Matter.IChamferableBodyDefinition = {
-			isStatic: true,
-			render: { fillStyle: 'transparent' },
-			restitution: 1
-		};
-		const poolStickOptions: Matter.IChamferableBodyDefinition = {
-			label: 'poolStick',
-			render: {fillStyle: 'rgb(202, 182, 143)'},
-			density: 1000
-		}
-		const pocketOptions: Matter.IChamferableBodyDefinition = {
-			label: 'pocket',
-			isSensor: true,
-			isStatic: true,
-			render: {fillStyle: 'transparent'}
-		}
-		var topBorder = Bodies.rectangle(this.width / 2, this.borderWidth / 2, this.width, this.borderWidth, borderOptions);
-		var rightBorder = Bodies.rectangle(this.width - (this.borderWidth / 2), this.height / 2, this.borderWidth, this.height, borderOptions);
-		var bottomBorder = Bodies.rectangle(this.width / 2, this.height - (this.borderWidth / 2), this.width, this.borderWidth, borderOptions);
-		var leftBorder = Bodies.rectangle(this.borderWidth / 2, this.height / 2, this.borderWidth, this.height, borderOptions);
-		var poolStick = Bodies.rectangle(this.width / 2, 750, 600, 15, poolStickOptions);
-		
-		var topLeftPocket = Bodies.circle(this.width * 0.150, this.height * 0.23,  20, pocketOptions)
-		var topMiddlePocket = Bodies.circle(this.width * 0.500, this.height * 0.23,  20, pocketOptions)
-		var topRightPocket = Bodies.circle(this.width * 0.855, this.height * 0.23,  20, pocketOptions)
-		var bottomLeftPocket = Bodies.circle(this.width * 0.150, this.height * 0.77,  20, pocketOptions)
-		var bottomMiddlePocket = Bodies.circle(this.width * 0.500, this.height * 0.77,  20, pocketOptions)
-		var bottomRightPocket = Bodies.circle(this.width * 0.855, this.height * 0.77,  20, pocketOptions)
-		
-		// add all of the bodies to the world
-		Composite.add(this.engine.world, [
-			topBorder, 
-			rightBorder, 
-			bottomBorder, 
-			leftBorder, 
-			poolStick, 
-			topLeftPocket, 
-			topMiddlePocket, 
-			topRightPocket, 
-			bottomLeftPocket, 
-			bottomMiddlePocket, 
-			bottomRightPocket
-		]);
+		this.generateGameBorders();
+		this.generatePockets();
+		this,this.generatepoolStick();
 	}
+	
 	private setupMouseConstraint(): void {
 		this.mouseConstraint = MouseConstraint.create(this.engine, {
             mouse: this.mouse,
@@ -148,6 +109,56 @@ export class PhysicsService {
 		  	};
 		});
 	}
+	private generateGameBorders(): void {
+		const borderOptions: Matter.IChamferableBodyDefinition = {
+			isStatic: true,
+			render: { fillStyle: 'transparent' },
+			restitution: 1
+		};
+		
+		var topBorder = Bodies.rectangle(this.width / 2, this.borderWidth / 2, this.width, this.borderWidth, borderOptions);
+		var rightBorder = Bodies.rectangle(this.width - (this.borderWidth / 2), this.height / 2, this.borderWidth, this.height, borderOptions);
+		var bottomBorder = Bodies.rectangle(this.width / 2, this.height - (this.borderWidth / 2), this.width, this.borderWidth, borderOptions);
+		var leftBorder = Bodies.rectangle(this.borderWidth / 2, this.height / 2, this.borderWidth, this.height, borderOptions);
+
+		Composite.add(this.engine.world, [topBorder, rightBorder, bottomBorder, leftBorder]);
+	}
+	private generatepoolStick(): void {
+		const poolStickShaftOptions: Matter.IChamferableBodyDefinition = {
+			label: 'poolStick',
+			render: {fillStyle: 'rgb(202, 182, 143)'},
+			density: 1000
+		}
+		const poolStickTipOptions: Matter.IChamferableBodyDefinition = {
+			render: {fillStyle: 'rgb(0, 0, 0)'},
+			chamfer: { radius: [5, 0, 0, 5] },
+			density: 1000
+		}
+		var poolStickShaft = Bodies.rectangle(this.width / 2, 750, 600, 10, poolStickShaftOptions);
+		var poolStickTip = Bodies.rectangle(this.width / 2.85 , 750, 10, 10, poolStickTipOptions);
+		var poolStick = Body.create({
+			parts: [poolStickShaft, poolStickTip]
+		});
+		Composite.add(this.engine.world, poolStick)
+	}
+	private generatePockets(): void {
+		/*
+		hit detection needs to be fine-tuned
+		*/
+		const pocketOptions: Matter.IChamferableBodyDefinition = {
+			label: 'pocket',
+			isSensor: true,
+			isStatic: true,
+			render: {fillStyle: 'transparent'}
+		}
+		var topLeftPocket = Bodies.rectangle(this.width * 0.15, this.height * 0.23, 25, 18, pocketOptions);
+		var topMiddlePocket = Bodies.rectangle(this.width * 0.489, this.height * 0.227, 25, 18, pocketOptions);
+		var topRightPocket = Bodies.rectangle(this.width * 0.85, this.height * 0.23, 25, 18, pocketOptions);
+		var bottomLeftPocket = Bodies.rectangle(this.width * 0.15, this.height * 0.77, 25, 18,  pocketOptions);
+		var bottomMiddlePocket = Bodies.rectangle(this.width * 0.489, this.height * 0.773, 25, 18, pocketOptions);
+		var bottomRightPocket = Bodies.rectangle(this.width * 0.85, this.height * 0.77, 25, 18, pocketOptions);
+		Composite.add(this.engine.world, [topLeftPocket, topMiddlePocket, topRightPocket, bottomLeftPocket, bottomMiddlePocket, bottomRightPocket]);
+	}
 	public addTrail(body: Body): void {
 		const trail: any = [];
 		Events.on(this.renderer, 'afterRender', () => {
@@ -195,11 +206,19 @@ export class PhysicsService {
 
 				if (pair.bodyA.label === 'pocket' && pair.bodyB.circleRadius === 15) {
 					this.engine.world.composites.forEach((composite: any) => {
+						
 						if (composite.bodies.includes(pair.bodyB)) {
 							Composite.remove(composite, pair.bodyB)
 						}
 					});
+					
 				} 
+				if (pair.bodyA.circleRadius === 15 && pair.bodyB.label === 'poolStick') {
+					/* 
+					should maybe create a collision filter when defining the pool stick options 
+					if the ball hits the stick (rather than vise versa), the collision isn't registered
+					*/
+				};
 			}
 		});
 		// Events.on(this.engine, 'collisionEnd', event => {
@@ -213,32 +232,5 @@ export class PhysicsService {
 		// 	}
 		// });
 	}
-
-
-
-	// public removeBody(ball: Body): void {
-	// 	/* 
-	// 	- my attempt at getting balls to be removed if they aren't in play anymore
-	// 		-- taken out of play in game state service when ball x and y within pocket
-	// 	*/
-	// 	// console.log("ball removed: ", ball)
-	// 	Composite.remove(this.engine.world, ball);
-	// }
-	// public getPocketCoordinates(pocket: Element): void {
-	// 	this._pocketCoordinates.push([pocket.getBoundingClientRect().x, pocket.getBoundingClientRect().y])
-	// }
-	// public get pocketCoordinates(): any {
-	// 	return this._pocketCoordinates
-	// }
-	// private compareBallPocketCoordinates(ball: any): void {
-	// 	const ballRadius = 15;
-	// 	this._pocketCoordinates.forEach((pocket: any) =>{
-	// 		// console.log("pocket x: ", pocket[0], "pocket y: ", pocket[1])
-	// 		if (pocket[0] - ballRadius < ball.position.x && ball.position.x < pocket[0] + ballRadius &&  pocket[1] - ballRadius < ball.position.y && ball.position.x < pocket[1] + ballRadius) {
-	// 			console.log(ball, "should be removed")
-	// 			this.removeBody(ball)
-	// 		}
-	// 	})
-	// }
 
 }
