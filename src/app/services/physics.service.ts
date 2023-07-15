@@ -90,10 +90,17 @@ export class PhysicsService {
 		Events.on(this.runner, 'tick', event => { 
 			if (this.mouseConstraint.body) {
 				if (this.mouseConstraint.body.label === 'poolStick') {
-					console.log("gotcha bitch")
+
 					// this.mouseConstraint.body.isStatic = true;
 					const anchor = this.mouseConstraint.body.position;
 					console.log("anchor: ", anchor)
+					/* 
+					- tried setting the anchor as pointA in Constraints.create()
+						-- spring just moves with the center of the pool stick as you move it around 
+					- hard set the spring location so that it is at least near the middle of pool stick, but doesn't move now
+						-- the spring stretches with the pool stick, but doesn't rebound once you stop clicking the pool stick
+							--- just hangs out all stretched like
+					*/
 					const stickSpring = Constraint.create({
 						pointA: { x: 1000, y: 750 },
 						bodyB: this.mouseConstraint.body,
