@@ -39,8 +39,7 @@ export class PhysicsService {
 		this.renderer.mouse = this.mouse;
 		this.addStuff();
 		this.setupEngine();
-	};
-		
+	}
 
 	public get renderElement(): HTMLCanvasElement {
 		return this._renderElement;
