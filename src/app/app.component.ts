@@ -3,7 +3,7 @@ import { BallComponent } from './ball/ball.component';
 import { PhysicsService } from './services/physics.service';
 import { GameStateService } from './services/game-state.service';
 import { PlayerComponent } from './player/player.component';
-import { Bodies, Body, Composite, Composites, IBodyDefinition } from 'matter-js';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-root',
@@ -17,6 +17,8 @@ export class AppComponent implements AfterViewInit {
 	private _isButtonActive: boolean = false;
 	private _players: PlayerComponent[];
 	public fillScoreboard: boolean = false;
+	private scratchSubscription: Subscription;
+	private ballRemovedSubscription: Subscription;
 	
 	constructor(private physicsService: PhysicsService, private gameState: GameStateService) {
 	}
@@ -26,19 +28,52 @@ export class AppComponent implements AfterViewInit {
 		this.gameState.newGame();
 		this._players = this.gameState.players;
 		this.fillScoreboard = true;
-		
-		// let tableQuery = document.querySelector('.game-area');
-		// let pockets = tableQuery?.querySelectorAll('.pocket');
-		// pockets?.forEach((pocket) => {
-		// 	this.physicsService.getPocketCoordinates(pocket);
-		// });
-		// this.physicsService.checkRemainingBalls();
+		this.scratchSubscription = this.physicsService.scratchSubject.subscribe(message => {
+			console.log('Received scratch notification:', message);
+		});
+		this.ballRemovedSubscription = this.physicsService.ballRemoved.subscribe(removedBall => {
+			if (removedBall.label === 'poolBall 8') {
+				const activeBalls = [];
+				for (let player of this._players) {
+					player.ballsRemaining.ballInfo.forEach((ball: any) => {
+						activeBalls.push(ball);
+					});
+				};
+				if (activeBalls.length > 2) {
+					console.log('way to go dummy');
+					// this.gameState.newGame();
+				}
+			};
+			console.log('this ball was sunk: ', removedBall);
+			for (let player of this._players) {
+				player.ballsRemaining.ballInfo.forEach((ball: any) => {
+					if (ball === removedBall) {
+						player.ballsRemaining.ballInfo.pop(ball);
+						player.ballsRemaining.ballNumber.splice(player.ballsRemaining.ballNumber.indexOf(ball.label), 1)
+					}
+				});
+			}
+			this.updateScoreboard();
+		});
 	}
 
-	viewScoreboard(): void {
+	public viewScoreboard(): void {
 		this._isButtonActive = !this._isButtonActive;
 	}
+	private updateScoreboard(): void {
+		/*
+		removes the ball number from the scoreboard if it has been sunk
+		currently the remaining ball numbers just spread out when a ball is removed
+		would rather the row heights stay the same to visually indicate how many balls each player has left to get
+		*/
 
+		this.fillScoreboard = false; 
+		
+		setTimeout(() => {
+			this.fillScoreboard = true;
+		}, 0);
+		
+	}
 	public playerBallsRemaining(player: PlayerComponent): any[] {
 		let specificPlayer: any | undefined = this._players.find(p => p === player);
 		return specificPlayer.ballsRemaining.ballNumber
@@ -53,50 +88,4 @@ export class AppComponent implements AfterViewInit {
 	public get isButtonActive() {
 		return this._isButtonActive
 	}
-
-	// public newGame(): void {
-	// 	const xStart = 750;
-	// 	const yStart = 645;
-	// 	const ballArr: Composite[] = [];
-	// 	for (let i = 1; i < 6; i++) {
-	// 		ballArr.push(Composites.stack(xStart - 30 * i, yStart - 15 * i, 1, i, 0, 0, this.getNextBall));
-	// 	}
-	// 	const cue = this.getNextBall(1400, 645);
-
-	// 	ballArr.forEach(ballComposite => {
-	// 		this.physicsService.addComposite(ballComposite);
-	// 	})
-	// 	this.physicsService.addBody(cue);
-	// }
-
-
-	// private getNextBall = (x: number, y: number): Body => {
-	// 	const generatedValue = this.createBall(x, y, this.ballCount + 1);
-	// 	this.ballCount++;
-	// 	return generatedValue;
-	// }
-
-	// private createBall(x: number, y: number, i: number): Body {
-	// 	const ballOptions: IBodyDefinition = {
-	// 		frictionAir: 0.01,
-	// 		render: {
-	// 			sprite: {
-	// 				texture: '',
-	// 				xScale: 0.01067,
-	// 				yScale: 0.01067
-	// 			}
-	// 		},
-	// 		restitution: 1,
-	// 		density: 1700
-	// 	};
-	// 	if (i < 16) {
-	// 		const texture = '../assets/poolSprites/' + i + '.png';
-	// 		ballOptions.render!.sprite!.texture = texture;
-	// 		const ball = Bodies.circle(x, y, 15, ballOptions);
-	// 		return ball;
-	// 	}
-	// 	delete (ballOptions.render!.sprite);
-	// 	ballOptions.render!.fillStyle = 'white';
-	// 	return Bodies.circle(x, y, 15, ballOptions);
-	// }
 }

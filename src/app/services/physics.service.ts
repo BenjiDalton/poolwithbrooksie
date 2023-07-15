@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Bodies, Body, Composite, Constraint, Engine, Events, Mouse, MouseConstraint, Render, Runner, Vector, Common, Vertices, Collision } from 'matter-js';
+import { Observable, Subject, firstValueFrom, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,11 @@ export class PhysicsService {
 
 	public ballsInPlay: any = [];
 
+	private _scratchSubject = new Subject<string>();
+	public scratchSubject = this._scratchSubject.asObservable();
+	private _ballRemoved = new Subject<any>();
+	public ballRemoved = this._ballRemoved.asObservable();
+
 	public set renderElement(element: HTMLCanvasElement) {
 		this._renderElement = element;
 		this.renderer = Render.create({
@@ -42,7 +48,6 @@ export class PhysicsService {
 		this.setupEngine();
 		this.checkRemainingBalls();
 	}
-
 	public get renderElement(): HTMLCanvasElement {
 		return this._renderElement;
 	}
@@ -125,21 +130,22 @@ export class PhysicsService {
 	}
 	private generatepoolStick(): void {
 		const poolStickShaftOptions: Matter.IChamferableBodyDefinition = {
+			isSensor: true, /* pool shaft wont be collided with */
 			label: 'poolStick',
 			render: {fillStyle: 'rgb(202, 182, 143)'},
 			density: 1000
-		}
+		};
 		const poolStickTipOptions: Matter.IChamferableBodyDefinition = {
 			render: {fillStyle: 'rgb(0, 0, 0)'},
 			chamfer: { radius: [5, 0, 0, 5] },
 			density: 1000
-		}
-		var poolStickShaft = Bodies.rectangle(this.width / 2, 750, 600, 10, poolStickShaftOptions);
-		var poolStickTip = Bodies.rectangle(this.width / 2.85 , 750, 10, 10, poolStickTipOptions);
+		};
+		var poolStickShaft = Bodies.rectangle(this.width / 2, 750, 600, 15, poolStickShaftOptions);
+		var poolStickTip = Bodies.rectangle(this.width / 2.85 , 750, 10, 15, poolStickTipOptions);
 		var poolStick = Body.create({
 			parts: [poolStickShaft, poolStickTip]
 		});
-		Composite.add(this.engine.world, poolStick)
+		Composite.add(this.engine.world, poolStick);
 	}
 	private generatePockets(): void {
 		/*
@@ -150,7 +156,7 @@ export class PhysicsService {
 			isSensor: true,
 			isStatic: true,
 			render: {fillStyle: 'transparent'}
-		}
+		};
 		var topLeftPocket = Bodies.rectangle(this.width * 0.15, this.height * 0.23, 25, 18, pocketOptions);
 		var topMiddlePocket = Bodies.rectangle(this.width * 0.489, this.height * 0.227, 25, 18, pocketOptions);
 		var topRightPocket = Bodies.rectangle(this.width * 0.85, this.height * 0.23, 25, 18, pocketOptions);
@@ -161,6 +167,7 @@ export class PhysicsService {
 	}
 	public addTrail(body: Body): void {
 		const trail: any = [];
+		
 		Events.on(this.renderer, 'afterRender', () => {
 			if (body.speed < 0.02) {
 				return
@@ -197,7 +204,8 @@ export class PhysicsService {
 	public checkRemainingBalls(): void {
 		/*
 		balls are removed from play if they "hit" a pocket
-		doesn't work on cue ball recently because it's not in a composite of this.engine.world.composites
+		- currently if the cue ball isnt set to static after changing its position, it disappears
+			-- i think its like yeeting off the screen cause it is calculating a huge change in position and then setting the speed of the ball?
 		*/
 		Events.on(this.engine, 'collisionStart', event =>  {
 			var pairs = event.pairs;
@@ -205,13 +213,18 @@ export class PhysicsService {
 				var pair = pairs[i];
 
 				if (pair.bodyA.label === 'pocket' && pair.bodyB.circleRadius === 15) {
+					if (pair.bodyB.label === 'cue') {
+						pair.bodyB.position.x = 1400;
+						pair.bodyB.position.y = 645;
+						pair.bodyB.isStatic = true;
+						this.sendScratch();
+					}
 					this.engine.world.composites.forEach((composite: any) => {
-						
 						if (composite.bodies.includes(pair.bodyB)) {
+							this.sendRemovedBall(pair.bodyB)
 							Composite.remove(composite, pair.bodyB)
 						}
 					});
-					
 				} 
 				if (pair.bodyA.circleRadius === 15 && pair.bodyB.label === 'poolStick') {
 					/* 
@@ -220,17 +233,13 @@ export class PhysicsService {
 					*/
 				};
 			}
-		});
-		// Events.on(this.engine, 'collisionEnd', event => {
-		// 	var pairs = event.pairs;
 			
-		// 	for (var i = 0, j = pairs.length; i != j; ++i) {
-		// 		var pair = pairs[i];
-		// 		if (pair.bodyA === this.pocketDemo && pair.bodyB.circleRadius === 15) {
-		// 			pair.bodyB.render.fillStyle = 'transparent'
-		// 		} 
-		// 	}
-		// });
+		});
 	}
-
+	public sendScratch(): void {
+		this._scratchSubject.next('ooooof ya scratched');
+	}
+	public sendRemovedBall(ball: any): void {
+		this._ballRemoved.next(ball)
+	}
 }

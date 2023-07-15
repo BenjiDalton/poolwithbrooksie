@@ -23,10 +23,13 @@ export class GameStateService {
 		stripes: []
 	}
 	private Brooks = new PlayerComponent;
+	
 	private Ben = new PlayerComponent;
 	private _players = [this.Brooks, this.Ben];
 
 	constructor(private physicsService: PhysicsService) {
+		this.Brooks.name = 'Brooks';
+		this.Ben.name = 'Ben';
 	}
 
 	public newGame(): void {
@@ -42,6 +45,7 @@ export class GameStateService {
 			this.physicsService.addComposite(ballComposite);
 		})
 		this.physicsService.addBody(cue);
+		
 		
 		this.assignPlayerBallType(this.Brooks, this._balls.solids, 'solids');
 		this.assignPlayerBallType(this.Ben, this._balls.stripes, 'stripes');
@@ -70,7 +74,7 @@ export class GameStateService {
 			ballLabel = "cue";
 		}
 		const ballOptions: IBodyDefinition = {
-			label: `poolBall ${ballLabel}`,
+			label: ballLabel,
 			frictionAir: 0.01,
 			render: {
 				sprite: {

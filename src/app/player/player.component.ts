@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent {
+	private _name: string; 
 	private _ballsRemaining: any = {
 		ballNumber: [],
 		ballInfo: []
@@ -13,6 +14,12 @@ export class PlayerComponent {
 	private _ballType: string;
 	
 	constructor(){}
+	public set name(name: string) {
+		this._name = name;
+	}
+	public get name(): string {
+		return this._name
+	}
 
 	public set ballsRemaining(ballsArr: []) {
 		this._ballsRemaining = ballsArr;
