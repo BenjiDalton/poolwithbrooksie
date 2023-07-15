@@ -50,15 +50,16 @@ export class GameStateService {
 	}
 	private getNextBall = (x: number, y: number): Body => {
 		const generatedValue = this.createBall(x, y, this.ballCount + 1);
+		this.physicsService.addTrail(generatedValue);
 		this.ballCount++;
 		if (this.ballCount < 8) {
-			this._balls.solids.push([this.ballCount, generatedValue])
+			this._balls.solids.push([this.ballCount, generatedValue]);
 		} else if (this.ballCount > 8 && this.ballCount < 16) {
-			this._balls.stripes.push([this.ballCount, generatedValue])
+			this._balls.stripes.push([this.ballCount, generatedValue]);
 		} else if (this.ballCount === 8) {
-			this._balls.eight.push([this.ballCount, generatedValue])
+			this._balls.eight.push([this.ballCount, generatedValue]);
 		} else if (this.ballCount === 16) {
-			this._balls.cue.push([this.ballCount, generatedValue])
+			this._balls.cue.push([this.ballCount, generatedValue]);
 		}
 
 		return generatedValue;
@@ -94,7 +95,7 @@ export class GameStateService {
 		player.ballType = ballType;
 	}
 	public get players(): any {
-		return this._players
+		return this._players;
 	}
 	public get currentScore(): string {
 		if (this.ballCount === 0) {

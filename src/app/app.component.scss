@@ -124,7 +124,6 @@
 			left: 2%;
 			top: 10%;
 			.scoreboard-button-dropdown {
-				all: unset;
 				position: absolute;
 				display: none;
 				width: calc(100% - 5px);
@@ -156,15 +155,14 @@
 			background-color: #666666;
 			.scoreboard-button-dropdown {
 				display: block;
-				
 			}
 		}
+		.scoreboard-button:hover {
+			cursor: pointer;
+			background-color: rgb(95, 91, 91);
+		}
+		.scoreboard-button:hover .scoreboard-button-dropdown {
+			display: block;
+		}
 	}
-}
-
-@media (hover: hover) {
-    .scoreboard-button:hover {
-		cursor: pointer;
-		background-color: rgba(163, 43, 43, 0.719);
-    }
 }
