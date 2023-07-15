@@ -26,12 +26,14 @@ export class AppComponent implements AfterViewInit {
 		this.gameState.newGame();
 		this._players = this.gameState.players;
 		this.fillScoreboard = true;
+		
 		let tableQuery = document.querySelector('.table-border');
 		let pockets = tableQuery?.querySelectorAll('.pocket');
 		pockets?.forEach((pocket) => {
 			this.gameState.getPocketCoordinates(pocket)
 		})
 		console.log(this.gameState.pocketCoordinates)
+		this.gameState.checkRemainingBalls()
 	}
 
 	viewScoreboard(): void {

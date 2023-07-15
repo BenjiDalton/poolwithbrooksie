@@ -19,6 +19,7 @@ export class PhysicsService {
 	private borderWidth = 300;
 	private _renderElement: HTMLCanvasElement;
 	private mouseConstraint: any;
+	public ballsInPlay: any = [];
 
 	public set renderElement(element: HTMLCanvasElement) {
 		this._renderElement = element;
@@ -34,11 +35,12 @@ export class PhysicsService {
 		});
 		this.mouse = Mouse.create(element);
 		this.setupMouseConstraint();
-		this.handlePoolStick();
+		// this.handlePoolStick();
 		this.renderer.mouse = this.mouse;
 		this.addStuff();
 		this.setupEngine();
-	}
+	};
+		
 
 	public get renderElement(): HTMLCanvasElement {
 		return this._renderElement;
@@ -51,7 +53,6 @@ export class PhysicsService {
 		Render.run(this.renderer);
 		Runner.run(this.runner, this.engine);
 	}
-
 	public addStuff(): void {
 		const borderOptions: Matter.IChamferableBodyDefinition = {
 			isStatic: true,
@@ -72,7 +73,6 @@ export class PhysicsService {
 		// add all of the bodies to the world
 		Composite.add(this.engine.world, [topBorder, rightBorder, bottomBorder, leftBorder, poolStick]);
 	}
-
 	private setupMouseConstraint(): void {
 		this.mouseConstraint = MouseConstraint.create(this.engine, {
             mouse: this.mouse,
@@ -102,7 +102,7 @@ export class PhysicsService {
 
 					// this.mouseConstraint.body.isStatic = true;
 					const anchor = this.mouseConstraint.body.position;
-					console.log("anchor: ", anchor)
+					// console.log("anchor: ", anchor)
 					/* 
 					- tried setting the anchor as pointA in Constraints.create()
 						-- spring just moves with the center of the pool stick as you move it around 
@@ -154,6 +154,15 @@ export class PhysicsService {
 	public addBody(body: Body): void {
 		Composite.add(this.engine.world, body);
 	}
+	public removeBody(ball: Body): void {
+		/* 
+		- my attempt at getting balls to be removed if they aren't in play anymore
+			-- taken out of play in game state service when ball x and y within pocket
+		*/
+		console.log(ball)
+		Composite.allBodies(this.engine.world).filter(body => body.label === 'poolBall').filter(body => body.id === ball.id)
+	}
+
 	public addComposite(composite: Composite): void {
 		Composite.add(this.engine.world, composite);
 	}

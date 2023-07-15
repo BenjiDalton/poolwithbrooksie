@@ -49,6 +49,33 @@ export class GameStateService {
 		this.assignPlayerBallType(this.Ben, this._balls.stripes, 'stripes');
 
 	}
+	private compareBallPocketCoordinates(x: number, y: number): boolean {
+		const ballRadius = 15;
+		return this._pocketCoordinates.some(pocket => {
+			return pocket[0] - ballRadius < x < pocket[0] + ballRadius &&  pocket[1] - ballRadius < y < pocket[1] + ballRadius;
+		});
+	}
+	public checkRemainingBalls(): void {
+		if (this._pocketCoordinates){
+			for ( let player of this._players ) {
+				/*
+				- tried to find out how to determine which balls are still active
+					-- thought to get all active balls -> determine if any balls are within the radius of any pocket -> removed from active balls if so
+				*/
+				this.physicsService.ballsInPlay.push(...player.ballsRemaining.ballInfo)
+				player.ballsRemaining.ballInfo = player.ballsRemaining.ballInfo.filter((ball: any) => 
+					this.compareBallPocketCoordinates(ball.position.x, ball.position.y)
+				);
+
+				this.physicsService.ballsInPlay.forEach((ball: any) => {
+					if (!player.ballsRemaining.ballInfo.includes(ball)) {
+						this.physicsService.removeBody(ball)
+					}
+				});
+			};
+		}
+	}
+		
 	public getPocketCoordinates(pocket: Element): void {
 		this._pocketCoordinates.push([pocket.getBoundingClientRect().x, pocket.getBoundingClientRect().y])
 	}
