@@ -23,10 +23,10 @@ export class AppComponent implements AfterViewInit {
 	
 	constructor(private physicsService: PhysicsService, private gameState: GameStateService) {
 	}
-	
 	ngAfterViewInit(): void {
 		this.physicsService.renderElement = this.gameAreaElement.nativeElement;
 		this.gameState.newGame();
+		this.openPlayerInput();
 		this._players = this.gameState.players;
 		this.fillScoreboard = true;
 		this.scratchSubscription = this.physicsService.scratchSubject.subscribe(message => {
@@ -58,6 +58,14 @@ export class AppComponent implements AfterViewInit {
 		});
 	}
 
+	public openPlayerInput(): void {
+		let modal = document.getElementById("playerInput") as HTMLElement;
+		modal.style.display = "block";
+	}
+	public closePlayerInput(): void {
+		let modal = document.getElementById("playerInput") as HTMLElement;
+		modal.style.display = "none";
+	}
 	public displayScoreboard(): void {
 		this._viewScoreboard = !this._viewScoreboard;
 	}

@@ -1,4 +1,13 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 <div class="container">
+	<div class="player-input" id="playerInput">
+		<div class="content">
+			<label for="playerNameEntry" style="left: 0px">Enter Player Name</label>
+			<input type="text" placeholder="Player name" name="playerNameEntry" required>
+			<div class="button add-player-button"><i class="fa fa-user-plus"></i></div>
+			<div class="button close-button" (click)="closePlayerInput()">Close</div>
+		  </div>
+	</div>
 	<div class="game-area">
 		<div #scoreBoardButton class="scoreboard-button" [class.active]="viewScoreboard" (click)="displayScoreboard()">Scoreboard
 			<div class="scoreboard-button-dropdown">
