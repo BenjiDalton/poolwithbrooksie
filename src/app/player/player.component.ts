@@ -13,6 +13,7 @@ export class PlayerComponent {
 	};
 	private _ballType: string;
 	private _turn: boolean = false;
+	private _wins: number = 0;
 	
 	constructor(){}
 	public set name(name: string) {
@@ -41,5 +42,12 @@ export class PlayerComponent {
 	}
 	public get turn(): boolean {
 		return this._turn
+	}
+
+	public set wins(wins: number) {
+		this._wins = wins;
+	}
+	public get wins(): number {
+		return this._wins
 	}
 }
