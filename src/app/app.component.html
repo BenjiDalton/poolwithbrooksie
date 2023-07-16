@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="game-area">
-		<div #scoreBoardButton class="scoreboard-button" [class.active]="isButtonActive" (click)="viewScoreboard()">Scoreboard
+		<div #scoreBoardButton class="scoreboard-button" [class.active]="viewScoreboard" (click)="displayScoreboard()">Scoreboard
 			<div class="scoreboard-button-dropdown">
 				<div class="dropdown-column" style="border-right: 4px solid black;">
 					<div class="dropdown-column-item">Brooks</div>
@@ -36,6 +36,13 @@
 			
 			
 			<div class="table"></div>
+		</div>
+		<div class="game-log-container">
+			<div class="game-log-button" [class.active]="viewLog" (click)="displayLog()">
+				Game Log
+				<div class="game-log-body"></div>
+			</div>
+			
 		</div>
 		<canvas #gameArea class="game-canvas"></canvas>
 	</div>

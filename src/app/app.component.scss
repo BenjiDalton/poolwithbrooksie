@@ -1,3 +1,6 @@
+* {
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
 .container {
 	display: flex;
 	justify-content: center;
@@ -14,6 +17,8 @@
 		width: 100%;
 		min-height: 1290px;
 		min-width: 2040px;
+		background-color: #454653;
+		z-index: 0;
 
 		.game-canvas {
 			background-color: transparent !important;
@@ -122,12 +127,12 @@
 			width: 400px;
 			height: 50px;
 			align-items: center;
-			background-color: rgba(124, 119, 119, 0.719);
+			background-color: rgb(23, 23, 30);
 			border-radius: 4px;
 			padding: 0px 20px 0px;
-			// transition: all 0.2s ease-in-out;
 			font-weight: 600;
 			font-size: xx-large;
+			color: whitesmoke;
 			user-select: none;
 			left: 2%;
 			top: 10%;
@@ -137,8 +142,8 @@
 				width: calc(100% - 5px);
 				height: 400px;
 				top: 100%;
-				background-color: rgba(124, 119, 119, 0.418);
-				border: 5px solid #ccc;
+				background-color: rgb(23, 23, 30, 0.5);
+				border: 3px solid rgb(23, 23, 30, 0.8);
 				border-top-style: inset;
 				border-radius: 5px;
 				column-count: 2;
@@ -154,23 +159,73 @@
 						display: flex;
 						justify-content: center;
 						height: 20%;
+						color: whitesmoke;
 					}
 				}
-				
 			}
 		}
 		.scoreboard-button.active {
-			background-color: #666666;
 			.scoreboard-button-dropdown {
 				display: block;
 			}
 		}
 		.scoreboard-button:hover {
 			cursor: pointer;
-			background-color: rgb(95, 91, 91);
+			background-color: rgb(49, 58, 70);
 		}
 		.scoreboard-button:hover .scoreboard-button-dropdown {
 			display: block;
 		}
+		.game-log-container {
+			position: absolute;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 400px;
+			background-color: rgb(23, 23, 30);
+			left: 5%;
+			bottom: 10%;
+			flex-direction: column;
+			.game-log-button {
+				position: relative;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 100%;
+				height: 50px;
+				border: 1px solid black;
+				text-align: center;
+				color: whitesmoke;
+				font-size: xx-large;
+				user-select: none;
+			}
+			.game-log-body {
+				position: absolute;
+				display: none;
+				bottom: 100%;
+				width: calc(100% - 5px);
+				height: 300px;
+				background-color: rgb(23, 23, 30, 0.5);
+				background-color: rgb(23, 23, 30, 0.5);
+				border: 3px solid rgb(23, 23, 30, 0.8);
+				border-top-style: inset;
+				color: whitesmoke;
+				overflow-x: hidden;
+				overflow-y: scroll;
+				font-size: 22px;
+				text-align: start;
+			}
+			.game-log-button.active {
+				.game-log-body {
+					display: block;
+				}
+			}
+		}
+		.game-log-container:hover{
+			cursor: pointer;
+			background-color: rgb(49, 58, 70);
+		}
+
+		
 	}
 }

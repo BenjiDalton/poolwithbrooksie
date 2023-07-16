@@ -14,7 +14,8 @@ export class AppComponent implements AfterViewInit {
 	@ViewChild('gameArea', { read: ElementRef }) gameAreaElement: ElementRef;
 	@ViewChild('scoreBoardButton', { read: ElementRef }) scoreBoardButton: ElementRef;
 	title = 'poolwithbrooksie';
-	private _isButtonActive: boolean = false;
+	private _viewScoreboard: boolean = false;
+	private _viewLog: boolean = false;
 	private _players: PlayerComponent[];
 	public fillScoreboard: boolean = false;
 	private scratchSubscription: Subscription;
@@ -44,12 +45,12 @@ export class AppComponent implements AfterViewInit {
 					// this.gameState.newGame();
 				}
 			};
-			console.log('this ball was sunk: ', removedBall);
 			for (let player of this._players) {
 				player.ballsRemaining.ballInfo.forEach((ball: any) => {
 					if (ball === removedBall) {
 						player.ballsRemaining.ballInfo.pop(ball);
 						player.ballsRemaining.ballNumber.splice(player.ballsRemaining.ballNumber.indexOf(ball.label), 1)
+						this.updateGameLog(`The ${ball.label} was hit in by ${player.name}`)
 					}
 				});
 			}
@@ -57,8 +58,11 @@ export class AppComponent implements AfterViewInit {
 		});
 	}
 
-	public viewScoreboard(): void {
-		this._isButtonActive = !this._isButtonActive;
+	public displayScoreboard(): void {
+		this._viewScoreboard = !this._viewScoreboard;
+	}
+	public displayLog(): void {
+		this._viewLog = !this._viewLog;
 	}
 	private updateScoreboard(): void {
 		/*
@@ -66,13 +70,18 @@ export class AppComponent implements AfterViewInit {
 		currently the remaining ball numbers just spread out when a ball is removed
 		would rather the row heights stay the same to visually indicate how many balls each player has left to get
 		*/
-
 		this.fillScoreboard = false; 
-		
 		setTimeout(() => {
 			this.fillScoreboard = true;
 		}, 0);
-		
+	}
+	private updateGameLog(message: string): void {
+		const gameLogBody = document.querySelector('.game-log-body') as HTMLElement;
+		const newMessage = document.createElement('p');
+		newMessage.textContent = message;
+		gameLogBody.appendChild(newMessage);
+		gameLogBody.scrollTop = gameLogBody.scrollHeight;
+
 	}
 	public playerBallsRemaining(player: PlayerComponent): any[] {
 		let specificPlayer: any | undefined = this._players.find(p => p === player);
@@ -85,7 +94,10 @@ export class AppComponent implements AfterViewInit {
 	public get players() {
 		return this._players
 	}
-	public get isButtonActive() {
-		return this._isButtonActive
+	public get viewScoreboard() {
+		return this._viewScoreboard
+	}
+	public get viewLog() {
+		return this._viewLog
 	}
 }
