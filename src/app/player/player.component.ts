@@ -12,6 +12,7 @@ export class PlayerComponent {
 		ballInfo: []
 	};
 	private _ballType: string;
+	private _turn: boolean = false;
 	
 	constructor(){}
 	public set name(name: string) {
@@ -33,5 +34,12 @@ export class PlayerComponent {
 	}
 	public get ballType(): string {
 		return this._ballType;
+	}
+
+	public set turn(turn: boolean) {
+		this._turn = turn;
+	}
+	public get turn(): boolean {
+		return this._turn
 	}
 }

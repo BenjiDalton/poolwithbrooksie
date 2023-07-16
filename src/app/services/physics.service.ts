@@ -234,10 +234,10 @@ export class PhysicsService {
 			
 		});
 	}
-	public sendScratch(): void {
+	private sendScratch(): void {
 		this._scratchSubject.next('ooooof ya scratched');
 	}
-	public sendRemovedBall(ball: any): void {
+	private sendRemovedBall(ball: any): void {
 		this._ballRemoved.next(ball)
 	}
 }
