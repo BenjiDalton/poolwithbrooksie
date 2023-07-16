@@ -45,7 +45,7 @@
 			}
 			input[type=text] {
 				position: absolute;
-				top: 25%;
+				top: 22%;
 				width: 80%;
 				padding: 5%;
 				margin: 5px 0 22px 0;
@@ -58,9 +58,10 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				width: 50%;
+				width: 20%;
 				height: 50px;
 				border: 1px solid black;
+				border-radius: 5px;
 				text-align: center;
 				color: rgb(0, 0, 0);
 				font-size: xx-large;
@@ -75,7 +76,7 @@
 				bottom: 10%;
 			}
 			.add-player-button:hover {
-				box-shadow: 5px 5px rgb(70, 144, 70);
+				box-shadow: 0 10px 35px rgba(81, 119, 81, 0.35);
 			}
 			.close-button:hover {
 				background-color: rgb(142, 60, 60);

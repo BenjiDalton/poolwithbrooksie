@@ -21,8 +21,6 @@ export class PhysicsService {
 	private _renderElement: HTMLCanvasElement;
 	private mouseConstraint: any;
 
-	public ballsInPlay: any = [];
-
 	private _scratchSubject = new Subject<string>();
 	public scratchSubject = this._scratchSubject.asObservable();
 	private _ballRemoved = new Subject<any>();

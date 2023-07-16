@@ -54,7 +54,6 @@ export class GameStateService {
 	private getNextBall = (x: number, y: number): Body => {
 		const generatedValue = this.createBall(x, y, this.ballCount + 1);
 		this.physicsService.addTrail(generatedValue);
-		this.physicsService.ballsInPlay.push(generatedValue)
 		this.ballCount++;
 		if (this.ballCount < 8) {
 			this._balls.solids.push([this.ballCount, generatedValue]);

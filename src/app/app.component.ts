@@ -66,6 +66,13 @@ export class AppComponent implements AfterViewInit {
 		let modal = document.getElementById("playerInput") as HTMLElement;
 		modal.style.display = "none";
 	}
+	public addPlayer(): void {
+		const playerInputModal = document.querySelector('.content') as HTMLElement;
+		const newInput = document.createElement('input');
+		newInput.type = 'text';
+		newInput.classList.add('content');
+		playerInputModal.appendChild(newInput);
+	}
 	public displayScoreboard(): void {
 		this._viewScoreboard = !this._viewScoreboard;
 	}
