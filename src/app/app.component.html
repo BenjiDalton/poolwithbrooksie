@@ -1,18 +1,50 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 <div class="container">
+	<div class="player-input" id="playerInput">
+		<div class="content">
+			<label for="playerNameEntry" style="left: 0px">Enter Player Name</label>
+			<input type="text" placeholder="Player name" name="playerNameEntry" required>
+			<div class="button add-player-button" (click)="addPlayer()"><i class="fa fa-user-plus"></i></div>
+			<div class="button close-button" (click)="closePlayerInput()">Close</div>
+		  </div>
+	</div>
 	<div class="game-area">
 		<div class="table-border">
-			<div class="stick"></div>
-			<div class="chalk">
-				<div class="chalk-dent"></div>
-			</div>
-			<div class="cue-ball-start"></div>
 			<div class="pocket pocket-top-left"></div>
 			<div class="pocket pocket-top-middle"></div>
 			<div class="pocket pocket-top-right"></div>
 			<div class="pocket pocket-bottom-left"></div>
 			<div class="pocket pocket-bottom-middle"></div>
-			<div class="pocket pocket-bottom-right"></div>
+			<div class="pocket pocket-bottom-right"></div> 
+			<div class="chalk">
+				<div class="chalk-dent"></div>
+			</div>
+			<div class="cue-ball-start"></div>
 			<div class="table"></div>
+		</div>
+		<div class="new-game-button" (click)="newGame()">new game</div>
+		<div class="dropdown-container">
+			<div class="dropdown-button" [class.active]="viewLog" (click)="displayLog()">
+				Game Log
+				<div class="dropdown-body"></div>
+			</div>
+		</div>
+		<div *ngIf="fillScoreboard" class="dropdown-container table-inset" >
+			<div class="dropdown-button" [class.active]="viewScoreboard" (click)="displayScoreboard()" style="color: rgb(255 255 255 / 49%);">
+				Balls
+				<div class="dropdown-body">
+					<div class="player-row" style="border-bottom: 2px solid white;">
+						<div class="column" style="text-align: left; min-width: 70px;">Brooks</div>
+						<div class="column" style="min-width: 60px;"> {{ playerBallType(players[0]) }}</div>
+						<div *ngFor="let ball of playerBallsRemaining(players[0])" class="column" style="min-width: 20px;">{{ ball }}</div>
+					</div>
+					<div class="player-row">
+						<div class="column" style="text-align: left; min-width: 70px;">Ben</div>
+						<div class="column" style="min-width: 60px;"> {{ playerBallType(players[1]) }}</div>
+						<div *ngFor="let ball of playerBallsRemaining(players[1])" class="column" style="min-width: 20px;">{{ ball }}</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<canvas #gameArea class="game-canvas"></canvas>
 	</div>

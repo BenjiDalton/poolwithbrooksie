@@ -25,7 +25,7 @@ export class BallComponent {
 			console.log('ERROR: ', value, 'is an invalid number. Please enter a value between 1 and 15.')
 		  }
 	}
-	get number(): string {
+	get number(): any {
 		return this._number
 	}
 	
