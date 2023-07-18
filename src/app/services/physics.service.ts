@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Bodies, Body, Composite, Constraint, Engine, Events, Mouse, MouseConstraint, Render, Runner, Vector, Common, Vertices, Collision } from 'matter-js';
-import { Observable, Subject, firstValueFrom, of } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
