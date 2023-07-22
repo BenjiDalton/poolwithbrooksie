@@ -35,9 +35,10 @@ export class GameStateService {
 	private _gameStateMessage = new Subject<any>();
 	public gameStateMessage = this._gameStateMessage.asObservable();
 	private notificationColors = {
-		'red': 'rgba(174, 18, 3, 1)',
-		'green': 'rgba(37, 195, 16, 1)',
-		'gold': 'rgba(232, 219, 21, 1)'
+		'red': 'rgba(255, 37, 0)',
+		'green': 'rgba(37, 195, 16)',
+		'gold': 'rgba(232, 219, 21)',
+		'grey': 'rgba(199, 203, 208)'
 	}
 	
 	constructor(private physicsService: PhysicsService) {
@@ -69,7 +70,7 @@ export class GameStateService {
 			};
 		});
 		this.playerChangeSubscription = this.playerChange.subscribe((player: any) => {
-			this.sendGameStateMessage(`It is ${player}'s turn to start`, 'grey');
+			this.sendGameStateMessage(`It is ${player}'s turn to start`, this.notificationColors.grey);
 		});
 	}
 
