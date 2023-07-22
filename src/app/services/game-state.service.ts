@@ -32,39 +32,44 @@ export class GameStateService {
 	private playerChangeSubscription: Subscription;
 	private currentPlayer = new PlayerComponent;
 	private playerChange = new Subject<string>();
-	private _gameStateMessage = new Subject<string>();
+	private _gameStateMessage = new Subject<any>();
 	public gameStateMessage = this._gameStateMessage.asObservable();
+	private notificationColors = {
+		'red': 'rgba(174, 18, 3, 1)',
+		'green': 'rgba(37, 195, 16, 1)',
+		'gold': 'rgba(232, 219, 21, 1)'
+	}
 	
 	constructor(private physicsService: PhysicsService) {
 		this.Brooks.name = 'Brooks';
 		this.Ben.name = 'Ben';
 
 		this.scratchSubscription = this.physicsService.scratchSubject.subscribe(message => {
-			this.sendGameStateMessage(`SCRATCH`);
+			this.sendGameStateMessage(`SCRATCH`, this.notificationColors.red);
 			this.switchCurrentPlayer();
-			this.sendGameStateMessage(`It is now ${this.currentPlayer.name}'s turn`);
+			this.sendGameStateMessage(`It is now ${this.currentPlayer.name}'s turn`, this.notificationColors.red);
 		});
 		this.ballRemovedSubscription = this.physicsService.ballRemoved.subscribe(removedBall => {
 			if (!this.currentPlayer.ballsRemaining.ballNumber.includes(removedBall.label)) {
 				this.consecutiveShots = 0;
-				this.sendGameStateMessage(`Ooops. ${this.currentPlayer.name} hit the wrong ball in`);
+				let string1 = `Ooops. ${this.currentPlayer.name} hit the wrong ball in. `;
 				this.switchCurrentPlayer();
-				this.sendGameStateMessage(`It is now ${this.currentPlayer.name}'s turn`);
+				this.sendGameStateMessage(string1 + `It is now ${this.currentPlayer.name}'s turn.`, this.notificationColors.red);
 			};
 			if (removedBall.label === 8 && this.currentPlayer.ballsRemaining.ballNumber.length > 2) {
-				this.sendGameStateMessage(`${this.currentPlayer.name} just hit the 8 ball in early and insta lost lmao`);
+				this.sendGameStateMessage(`${this.currentPlayer.name} just hit the 8 ball in early and insta lost lmao`, this.notificationColors.red);
 			};
 			if (this.currentPlayer.ballsRemaining.ballNumber.includes(removedBall.label)) {
 				this.consecutiveShots++;
 				this.currentPlayer.ballsRemaining.ballInfo.pop(removedBall);
 				this.currentPlayer.ballsRemaining.ballNumber.splice(this.currentPlayer.ballsRemaining.ballNumber.indexOf(removedBall.label), 1);
 				if (this.consecutiveShots > 3) {
-					this.sendGameStateMessage(`DAMN! ${this.currentPlayer.name} has hit ${this.consecutiveShots} in a row!`);
+					this.sendGameStateMessage(`DAMN! ${this.currentPlayer.name} has hit ${this.consecutiveShots} in a row!`, this.notificationColors.gold);
 				};
 			};
 		});
 		this.playerChangeSubscription = this.playerChange.subscribe((player: any) => {
-			this.sendGameStateMessage(`It is ${player}'s turn to start`);
+			this.sendGameStateMessage(`It is ${player}'s turn to start`, 'grey');
 		});
 	}
 
@@ -151,8 +156,8 @@ export class GameStateService {
 		})
 		player.ballType = ballType;
 	}
-	private sendGameStateMessage(message: string): void {
-		this._gameStateMessage.next(message);
+	private sendGameStateMessage(message: string, notificationColor: any): void {
+		this._gameStateMessage.next([message, notificationColor]);
 	}
 	public get players(): any {
 		return this._players;

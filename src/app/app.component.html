@@ -1,4 +1,6 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
 <div class="container">
 	<div class="player-input" id="playerInput">
 		<div class="content">
@@ -7,6 +9,11 @@
 			<div class="button add-player-button" (click)="addPlayer()"><i class="fa fa-user-plus"></i></div>
 			<div class="button close-button" (click)="closePlayerInput()">Close</div>
 		  </div>
+	</div>
+	<div *ngFor="let notification of notifications" class="pop-up-notification">
+		<div class="alert-simple" [ngStyle]="{ 'border-color': notification.color, 'color': notification.color }">
+			{{ notification.message }}
+		</div>
 	</div>
 	<div class="game-area">
 		<div class="table-border">

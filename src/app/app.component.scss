@@ -100,6 +100,73 @@
 		}
 		
 	}
+	.pop-up-notification {
+		position: absolute;
+		right: 25%;
+		top: 10%;
+
+		-webkit-animation: slideIn 2s ease 0s 2 alternate none;
+		animation: slideIn 2s ease 0s 2 alternate none;
+
+		.alert>.start-icon {
+			margin-right: 0;
+			min-width: 20px;
+			text-align: center;
+		}
+		.alert>.start-icon {
+			margin-right: 5px;
+		}
+		.cross-button {
+			position: relative;
+			background-color: transparent;
+			border: none;
+			left: 95%;
+			.cross {
+				font-size: 18px;
+				color: rgb(164, 167, 185);
+				text-shadow: none;
+				background-color: transparent;
+			}
+		}
+		.alert-simple {
+			display: flex;
+			position: absolute;
+			align-items: center;
+			justify-content: center;
+			border: 1px solid rgb(164, 167, 185);
+			background-color: rgb(164, 167, 185, 0.1);
+			box-shadow: 0px 0px 5px #161d38;
+			color: rgb(164, 167, 185);
+			font-size: 22px;
+			text-shadow: 2px 1px #00040a;
+			transition: 0.5s;
+			width: 500px;
+			height: 50px;
+			z-index: 1;
+			  cursor:pointer;
+			-webkit-animation: fadeOut 1s ease-out 6s 1 normal forwards;
+			animation: fadeOut 1s ease-out 6s 1 normal forwards;
+		}
+		.alert-simple:hover{
+			background-color: rgba(135, 136, 135, 0.35);
+			transition:0.5s;
+		}
+		.alert:before {
+			content: '';
+			position: absolute;
+			width: 0;
+			height: calc(100% - 44px);
+			border-left: 1px solid;
+			border-right: 2px solid;
+			border-bottom-right-radius: 3px;
+			border-top-right-radius: 3px;
+			left: 0;
+			top: 50%;
+			transform: translate(0,-50%);
+			height: 20px;
+		}
+		
+	}
 
 	.game-area {
 		display: flex;
@@ -316,6 +383,38 @@
 			cursor: pointer;
 		}
 		
+	}
+	@-webkit-keyframes slideIn {
+		from {
+			width: 0%;
+		}
+	
+		to {
+			width: 2%;
+		}
+	}
+	@keyframes slideIn {
+		from {
+			width: 0%;
+		}
+	
+		to {
+			width: 2%;
+		}
+	}
+	@-webkit-keyframes fadeOut {
+		0% { opacity: 1; }
+		100% { 
+			pointer-events: none;
+			opacity: 0; 
+		}
+	}
+	@keyframes fadeOut {
+		0% { opacity: 1; }
+		100% { 
+			pointer-events: none;
+			opacity: 0; 
+		}
 	}
 }
 

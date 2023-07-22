@@ -7,13 +7,14 @@ import { Component } from '@angular/core';
 })
 export class PlayerComponent {
 	private _name: string; 
+	private _turn: boolean = false;
+	private _wins: number = 0;
 	private _ballsRemaining: any = {
 		ballNumber: [],
 		ballInfo: []
 	};
 	private _ballType: string;
-	private _turn: boolean = false;
-	private _wins: number = 0;
+
 	
 	constructor(){}
 	public set name(name: string) {

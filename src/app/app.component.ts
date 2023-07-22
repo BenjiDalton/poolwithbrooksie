@@ -19,6 +19,8 @@ export class AppComponent implements AfterViewInit {
 	public fillScoreboard: boolean = false;
 	private gameStateSubscription: Subscription;
 	private ballRemovedSubscription: Subscription;
+	public notifications: { message: string; color: string }[] = [];
+	public displayPopUp: boolean = false;
 	
 	constructor(private physicsService: PhysicsService, private gameState: GameStateService) {
 	}
@@ -26,8 +28,11 @@ export class AppComponent implements AfterViewInit {
 		this.physicsService.renderElement = this.gameAreaElement.nativeElement;
 		this.openPlayerInput();
 
-		this.gameStateSubscription = this.gameState.gameStateMessage.subscribe(message => {
-			this.updateGameLog(message);
+		this.gameStateSubscription = this.gameState.gameStateMessage.subscribe(result => {
+			let message = result[0];
+			let notificationColor = result[1]
+			console.log(message, notificationColor)
+			this.updatePlayerNotification(message, notificationColor);
 		});
 	}
 	public openPlayerInput(): void {
@@ -58,7 +63,10 @@ export class AppComponent implements AfterViewInit {
 	public displayLog(): void {
 		this._viewLog = !this._viewLog;
 	}
-	
+	private updatePlayerNotification(message: string, notificationColor: any): void {
+		this.notifications.push({ message, color: notificationColor });
+		this.displayPopUp = true;
+	}
 	private updateGameLog(message: string): void {
 		const gameLogBody = document.querySelector('.dropdown-body') as HTMLElement;
 		const newMessage = document.createElement('p');
